@@ -1,0 +1,34 @@
+{
+  "mcpServers": {
+    "postgres": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "--network=bia_default",
+        "-e",
+        "DATABASE_URI",
+        "crystaldba/postgres-mcp",
+        "--access-mode=unrestricted"
+      ],
+      "env": {
+        "DATABASE_URI": "postgresql://postgres:postgres@database:5432/bia"
+      }
+    },
+    "awslabs.ecs-mcp-server": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "awslabs-ecs-mcp-server",
+        "ecs-mcp-server"
+      ],
+      "env": {
+        "AWS_REGION": "us-east-1",
+        "FASTMCP_LOG_LEVEL": "ERROR",
+        "ALLOW_WRITE": "false",
+        "ALLOW_SENSITIVE_DATA": "false"
+      }
+    }
+  }
+}
