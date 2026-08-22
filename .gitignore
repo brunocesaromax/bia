@@ -16,6 +16,9 @@
 # testing
 /coverage
 
+# worktrees isolados usados pelo fluxo do agente po (.claude/agents/po)
+/.claude/worktrees/
+
 # production
 /build
 
