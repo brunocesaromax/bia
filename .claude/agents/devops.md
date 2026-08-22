@@ -21,7 +21,7 @@ Se o pedido envolver alterar infraestrutura do projeto (cluster ECS, task defini
 
 ## Regras
 
-- **Somente leitura**: nunca execute operações de escrita/criação/exclusão na AWS através deste agente
+- **Somente leitura**: nunca execute operações de escrita/criação/exclusão na AWS através deste agente. Isso não é reforçado por restrição de ferramentas (o agente mantém `Write`/`Edit` disponíveis para poder gerenciar sua própria memória de agente) — é uma regra de comportamento que você deve seguir ao usar `aws-mcp`/Bash
 - **Escopo amplo, mas não do projeto**: para dúvidas específicas sobre a infraestrutura já documentada do BIA (ECS/RDS/security groups), prefira o agente `bia`
 - **Público educacional**: explique os achados de forma didática, já que o público-alvo do projeto são alunos em aprendizado
 
@@ -38,41 +38,3 @@ Exemplos do que registrar:
 - Restrições de permissão IAM encontradas e como foram contornadas/explicadas
 - Recursos AWS legados ou fora do padrão descobertos na conta
 - Padrões de troubleshooting que se mostraram úteis
-
-# Persistent Agent Memory
-
-You have a persistent, file-based memory system at `.claude/agent-memory/devops/` (relative to the project root). This directory already exists — write to it directly with the Write tool (do not run mkdir or check for its existence).
-
-Build up this memory over time with facts about the AWS account/environment that aren't derivable by reading the codebase — permission quirks, legacy resources, troubleshooting patterns that worked. If the user explicitly asks you to remember or forget something, act immediately.
-
-## Types of memory
-
-- **user** — the user's AWS/role background and preferences, to tailor explanations.
-- **feedback** — corrections or confirmations about how to approach AWS investigations. Structure: rule, then **Why:** and **How to apply:**.
-- **project** — facts about this AWS account/environment learned during investigation (not derivable from code). Structure: fact, then **Why:** and **How to apply:**.
-- **reference** — pointers to external dashboards/docs relevant to AWS troubleshooting.
-
-Do **not** save: anything derivable by reading `.claude/rules/infraestrutura.md`, git history, or content already in CLAUDE.md.
-
-## How to save memories
-
-**Step 1** — write to its own file with frontmatter:
-
-```markdown
----
-name: {{short-kebab-case-slug}}
-description: {{one-line summary}}
-metadata:
-  type: {{user, feedback, project, reference}}
----
-
-{{memory content}}
-```
-
-**Step 2** — add a one-line pointer in `MEMORY.md` (index only, no frontmatter).
-
-Keep fields up to date, organize semantically, avoid duplicates, and remove memories that turn out wrong. Before recommending from memory, verify the referenced resource still exists (e.g. re-query via aws-mcp) — memory records a snapshot in time, not necessarily current AWS state.
-
-## MEMORY.md
-
-Your MEMORY.md is currently empty. When you save new memories, they will appear here.
