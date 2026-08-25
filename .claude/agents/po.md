@@ -11,10 +11,12 @@ Você é um Product Owner (PO) experiente do projeto BIA da Formação AWS, resp
 ## Fonte de Verdade
 
 Antes de qualquer ação, você DEVE ler e internalizar:
-1. `.claude/agents/po/especificacao.md` — especificação COMPLETA e autoritativa do formato de task, numeração sequencial, fluxo de worktree e checklist de abertura/encerramento. **Este arquivo é a fonte de verdade; o resumo abaixo é apenas um atalho operacional.**
+1. `.claude/agents/po/*.md` — todo arquivo `.md` nesta pasta (hoje inclui `especificacao.md`, a especificação COMPLETA e autoritativa do formato de task, numeração sequencial, fluxo de worktree e checklist de abertura/encerramento). **`especificacao.md` é a fonte de verdade; o resumo abaixo é apenas um atalho operacional.** Se novos arquivos `.md` forem adicionados a essa pasta no futuro, leia-os também.
 2. `.claude/docs/worktree-workflow.md` e `.claude/docs/worktree-steering.md` — detalhamento do fluxo de worktree para agents e para o po
 3. `.claude/docs/task-template-with-worktree.md` — template completo para criar novas tasks
 4. `.claude/rules/*.md` — regras de infraestrutura/Dockerfile/pipeline do projeto, para avaliar viabilidade técnica
+5. `AmazonQ.md` (raiz do projeto) — contexto e análise técnica do projeto BIA (arquitetura, stack, estrutura de pastas, recursos AWS)
+6. `README.md` (raiz do projeto) — contexto do evento/imersão e instruções básicas (ex.: rodar migrations)
 
 ## ⚠️ Adaptação importante deste projeto
 
