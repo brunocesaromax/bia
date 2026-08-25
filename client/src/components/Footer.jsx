@@ -9,6 +9,9 @@ const Footer = () => {
         <Link to="/about" className="footer-link">
           Sobre a BIA
         </Link>
+        <Link to="/versao" className="footer-link">
+          Versão da aplicação
+        </Link>
       </div>
     </footer>
   );

@@ -7,17 +7,20 @@ import Footer from "./components/Footer.jsx";
 import Tasks from "./components/Tasks.jsx";
 import AddTask from "./components/AddTask.jsx";
 import About from "./components/About.jsx";
+import Versao from "./components/Versao.jsx";
 import DebugLogs from "./components/DebugLogs.jsx";
 
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
 function AppContent() {
   const [tasks, setTasks] = useState([]);
+  const [versao, setVersao] = useState(null);
   const { logApiRequest, logApiResponse, logApiError, addLog } = useLog();
 
   useEffect(() => {
     addLog('INFO', 'Aplicação iniciada', `API URL configurada: ${apiUrl}`);
     getTasks();
+    getVersao();
   }, []);
 
   const getTasks = async () => {
@@ -26,6 +29,15 @@ function AppContent() {
       setTasks(tasksFromServer);
     } catch (error) {
       addLog('ERROR', 'Falha ao carregar tarefas', error.message);
+    }
+  };
+
+  const getVersao = async () => {
+    try {
+      const versaoFromServer = await fetchVersao();
+      setVersao(versaoFromServer);
+    } catch (error) {
+      addLog('ERROR', 'Falha ao carregar versão', error.message);
     }
   };
 
@@ -44,6 +56,28 @@ function AppContent() {
         throw new Error(`HTTP ${res.status}: ${res.statusText}`);
       }
       
+      return data;
+    } catch (error) {
+      logApiError('GET', url, error);
+      throw error;
+    }
+  };
+
+  //Buscar Versão
+  const fetchVersao = async () => {
+    const url = `${apiUrl}/api/versao`;
+    logApiRequest('GET', url);
+
+    try {
+      const res = await fetch(url);
+      const data = await res.text();
+
+      logApiResponse('GET', url, res.status, data);
+
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+      }
+
       return data;
     } catch (error) {
       logApiError('GET', url, error);
@@ -195,6 +229,7 @@ function AppContent() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<About />} />
+            <Route path="/versao" element={<Versao versao={versao} />} />
           </Routes>
           <Footer />
         </div>
