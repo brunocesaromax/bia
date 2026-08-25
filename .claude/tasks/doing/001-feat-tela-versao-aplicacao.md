@@ -176,11 +176,15 @@ cd ../../..
 # Mover task para done
 mv .claude/tasks/doing/001-feat-tela-versao-aplicacao.md .claude/tasks/done/
 
-# Commit e push no main
-git checkout main
+# Commit e push no ia-main
+# NOTA: esta task nasceu quando a branch base ainda era `main`; a partir da reorganização
+# de 2026-08-24, `ia-main` passou a ser a branch base do fluxo de agentes, e o PR desta
+# task (ainda não aberto) deve mirar `ia-main`, não `main` (ver .claude/agents/po.md).
+git checkout ia-main
+git pull origin ia-main
 git add .claude/tasks/
 git commit -m "move: task 001 para done"
-git push origin main
+git push origin ia-main
 ```
 
 ### 3. Abrir Pull Request
@@ -190,8 +194,8 @@ cd .claude/worktrees/001-feat-tela-versao-aplicacao
 git branch --show-current
 # Deve mostrar: feature/001-feat-tela-versao-aplicacao
 
-# Abrir PR contra main
-gh pr create --base main --title "001: Tela de Versão da Aplicação" --body "Closes task 001"
+# Abrir PR contra ia-main (não main — ver nota acima)
+gh pr create --base ia-main --title "001: Tela de Versão da Aplicação" --body "Closes task 001"
 ```
 
 ### 4. Após PR Mergeado
