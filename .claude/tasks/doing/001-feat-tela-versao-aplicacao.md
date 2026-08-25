@@ -17,12 +17,12 @@ Esta task será implementada em worktree isolado em `.claude/worktrees/001-feat-
 
 Antes de começar a implementar, o agent deve:
 
-- [ ] **Verificar branch atual:** `git branch --show-current`
+- [x] **Verificar branch atual:** `git branch --show-current`
   - Se não estiver em `main`, **PERGUNTAR** ao usuário se pode trocar
   - Aguardar autorização
   - Após autorização: `git checkout main && git pull origin main`
 
-- [ ] **Mover task para doing:**
+- [x] **Mover task para doing:**
   ```bash
   mv .claude/tasks/001-feat-tela-versao-aplicacao.md .claude/tasks/doing/
   git add .claude/tasks/
@@ -30,7 +30,7 @@ Antes de começar a implementar, o agent deve:
   git push origin main
   ```
 
-- [ ] **Criar worktree:**
+- [x] **Criar worktree:**
   ```bash
   git worktree add .claude/worktrees/001-feat-tela-versao-aplicacao -b feature/001-feat-tela-versao-aplicacao main
   cd .claude/worktrees/001-feat-tela-versao-aplicacao
@@ -60,66 +60,66 @@ Como aluno/usuário da BIA, eu quero acessar uma tela dedicada que mostre a vers
 ## ✅ Critérios de Aceitação
 
 ### Funcionalidades Principais
-- [ ] Nova rota `/versao` registrada em `client/src/App.jsx`, dentro de `<Routes>`, análoga à rota `/about`.
-- [ ] Novo componente de página (ex.: `client/src/components/Versao.jsx`) criado seguindo a mesma estrutura de `About.jsx` (componente funcional simples, recebe dados via props do `App.jsx`, contém link "← Voltar" para `/`).
-- [ ] Nova função de fetch (ex.: `fetchVersao`) criada em `client/src/App.jsx`, replicando **exatamente** o padrão de `fetchTasks` (mesmo uso de `apiUrl`, `logApiRequest`, `logApiResponse`, `logApiError`, tratamento de `!res.ok`), mas usando `res.text()` (o endpoint não retorna JSON).
-- [ ] Novo estado (ex.: `versao`) criado em `client/src/App.jsx` via `useState`, populado através de uma função `getVersao` chamada a partir do `useEffect` de inicialização (mesmo padrão do `getTasks`), e passado como prop para o novo componente de tela.
-- [ ] Tratamento de erro consistente com o padrão existente: falha na chamada deve registrar log via `addLog('ERROR', ...)` (igual ao `catch` de `getTasks`) e a tela deve exibir uma mensagem amigável de erro/indisponibilidade em vez de quebrar.
+- [x] Nova rota `/versao` registrada em `client/src/App.jsx`, dentro de `<Routes>`, análoga à rota `/about`.
+- [x] Novo componente de página (ex.: `client/src/components/Versao.jsx`) criado seguindo a mesma estrutura de `About.jsx` (componente funcional simples, recebe dados via props do `App.jsx`, contém link "← Voltar" para `/`).
+- [x] Nova função de fetch (ex.: `fetchVersao`) criada em `client/src/App.jsx`, replicando **exatamente** o padrão de `fetchTasks` (mesmo uso de `apiUrl`, `logApiRequest`, `logApiResponse`, `logApiError`, tratamento de `!res.ok`), mas usando `res.text()` (o endpoint não retorna JSON).
+- [x] Novo estado (ex.: `versao`) criado em `client/src/App.jsx` via `useState`, populado através de uma função `getVersao` chamada a partir do `useEffect` de inicialização (mesmo padrão do `getTasks`), e passado como prop para o novo componente de tela.
+- [x] Tratamento de erro consistente com o padrão existente: falha na chamada deve registrar log via `addLog('ERROR', ...)` (igual ao `catch` de `getTasks`) e a tela deve exibir uma mensagem amigável de erro/indisponibilidade em vez de quebrar.
 
 ### Interface e UX
-- [ ] Tela exibe claramente o texto de versão retornado pela API (ex.: `Bia 4.2.0`).
-- [ ] Layout e estilo visualmente consistentes com o restante do app (mesma tipografia, cores, suporte a tema claro/escuro).
-- [ ] Responsividade coerente com as demais telas (`About`, `Tasks`).
+- [x] Tela exibe claramente o texto de versão retornado pela API (ex.: `Bia 4.2.0`).
+- [x] Layout e estilo visualmente consistentes com o restante do app (mesma tipografia, cores, suporte a tema claro/escuro).
+- [x] Responsividade coerente com as demais telas (`About`, `Tasks`).
 
 ### Integração
-- [ ] Link de navegação para a nova tela adicionado em local visível (ex.: `client/src/components/Footer.jsx`, ao lado do link "Sobre a BIA"), com texto claro (ex.: "Versão da aplicação").
-- [ ] `client/src/components/VersionInfo.jsx` (widget do header) permanece inalterado e funcional.
-- [ ] Nenhuma regressão nas rotas/telas existentes (`/`, `/about`).
+- [x] Link de navegação para a nova tela adicionado em local visível (ex.: `client/src/components/Footer.jsx`, ao lado do link "Sobre a BIA"), com texto claro (ex.: "Versão da aplicação").
+- [x] `client/src/components/VersionInfo.jsx` (widget do header) permanece inalterado e funcional.
+- [x] Nenhuma regressão nas rotas/telas existentes (`/`, `/about`).
 
 ## 🧪 Testes
-- [ ] Testar navegação até `/versao` pelo link criado e diretamente pela URL.
-- [ ] Validar que o texto exibido bate com o retorno real de `GET /api/versao` (conferir com `curl http://localhost:3000/api/versao` ou porta configurada, conforme `.claude/rules/dockerfile.md`).
-- [ ] Validar cenário de erro: interromper a API (ou apontar `VITE_API_URL` para endereço inválido) e confirmar que a tela mostra mensagem de erro amigável, sem quebrar a aplicação.
-- [ ] Testar responsividade da nova tela (mobile/desktop).
-- [ ] Testar em tema claro e escuro.
+- [x] Testar navegação até `/versao` pelo link criado e diretamente pela URL.
+- [x] Validar que o texto exibido bate com o retorno real de `GET /api/versao` (conferir com `curl http://localhost:3000/api/versao` ou porta configurada, conforme `.claude/rules/dockerfile.md`).
+- [x] Validar cenário de erro: interromper a API (ou apontar `VITE_API_URL` para endereço inválido) e confirmar que a tela mostra mensagem de erro amigável, sem quebrar a aplicação.
+- [x] Testar responsividade da nova tela (mobile/desktop).
+- [x] Testar em tema claro e escuro.
 
 ## 📚 Definição de Pronto (DoD)
-- [ ] Código implementado e testado
-- [ ] Todos os itens do checklist marcados ✅
-- [ ] Commits descritivos e frequentes
-- [ ] Push do branch realizado
-- [ ] Código segue padrões do projeto (fetch nativo + log via `useLog`, sem axios, sem camada de service nova)
-- [ ] Documentação atualizada (se necessário)
+- [x] Código implementado e testado
+- [x] Todos os itens do checklist marcados ✅
+- [x] Commits descritivos e frequentes
+- [x] Push do branch realizado
+- [x] Código segue padrões do projeto (fetch nativo + log via `useLog`, sem axios, sem camada de service nova)
+- [x] Documentação atualizada (se necessário)
 
 ---
 
 ## 🎯 CHECKLIST DE IMPLEMENTAÇÃO (MARCAR DURANTE O TRABALHO)
 
 ### Configuração
-- [ ] Worktree criado e branch correto confirmado
-- [ ] Ambiente de desenvolvimento configurado no worktree (`npm install` no `client/`, se necessário)
-- [ ] Dependências instaladas (se necessário)
+- [x] Worktree criado e branch correto confirmado
+- [x] Ambiente de desenvolvimento configurado no worktree (`npm install` no `client/`, se necessário)
+- [x] Dependências instaladas (se necessário)
 
 ### Desenvolvimento
-- [ ] Criar `fetchVersao` em `client/src/App.jsx` (padrão `fetchTasks`, usando `res.text()`)
-- [ ] Criar estado `versao` + função `getVersao` em `client/src/App.jsx`, chamada no `useEffect` de inicialização
-- [ ] Criar componente `client/src/components/Versao.jsx` (padrão `About.jsx`), recebendo `versao` via props
-- [ ] Registrar rota `/versao` em `client/src/App.jsx`
-- [ ] Adicionar link de navegação no `Footer.jsx` para `/versao`
-- [ ] Adicionar/ajustar classes CSS em `client/src/index.css` seguindo convenção existente (`about-page`, etc.)
-- [ ] Tratar estado de erro/indisponibilidade na tela
+- [x] Criar `fetchVersao` em `client/src/App.jsx` (padrão `fetchTasks`, usando `res.text()`)
+- [x] Criar estado `versao` + função `getVersao` em `client/src/App.jsx`, chamada no `useEffect` de inicialização
+- [x] Criar componente `client/src/components/Versao.jsx` (padrão `About.jsx`), recebendo `versao` via props
+- [x] Registrar rota `/versao` em `client/src/App.jsx`
+- [x] Adicionar link de navegação no `Footer.jsx` para `/versao`
+- [x] Adicionar/ajustar classes CSS em `client/src/index.css` seguindo convenção existente (`about-page`, etc.)
+- [x] Tratar estado de erro/indisponibilidade na tela
 
 ### Testes
-- [ ] Testes manuais realizados (navegação, exibição da versão, erro simulado)
-- [ ] Cenários de erro testados (API indisponível / URL inválida)
-- [ ] Testado em tema claro e escuro
-- [ ] Testado responsividade
+- [x] Testes manuais realizados (navegação, exibição da versão, erro simulado)
+- [x] Cenários de erro testados (API indisponível / URL inválida)
+- [x] Testado em tema claro e escuro
+- [x] Testado responsividade
 
 ### Finalização
-- [ ] Código revisado
-- [ ] Commits finalizados com mensagens descritivas
-- [ ] Push do branch realizado
-- [ ] Todos os itens acima marcados ✅
+- [x] Código revisado
+- [x] Commits finalizados com mensagens descritivas
+- [x] Push do branch realizado
+- [x] Todos os itens acima marcados ✅
 
 ---
 
