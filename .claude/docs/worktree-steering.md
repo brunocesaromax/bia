@@ -6,7 +6,7 @@ Seguimos o **padrão Claude/Codex** de worktrees dentro do projeto.
 ## 🎯 Localização
 - **Pasta de worktrees:** `.claude/worktrees/`
 - **Gitignore:** Pasta `.claude/worktrees/` está no `.gitignore`
-- **Branch base:** SEMPRE `main`
+- **Branch base:** SEMPRE `ia-main`
 
 ## 🔄 Workflow para Agents (Dev/DevOps/QA)
 
@@ -17,12 +17,12 @@ Seguimos o **padrão Claude/Codex** de worktrees dentro do projeto.
 # Verificar branch atual
 git branch --show-current
 
-# Se NÃO estiver em main:
-# - PERGUNTAR ao usuário se pode trocar para main
+# Se NÃO estiver em ia-main:
+# - PERGUNTAR ao usuário se pode trocar para ia-main
 # - Aguardar autorização
 # - Após autorização:
-git checkout main
-git pull origin main
+git checkout ia-main
+git pull origin ia-main
 ```
 
 #### 2. Movimentação da Task
@@ -30,19 +30,19 @@ git pull origin main
 # Mover task de .claude/tasks/ para .claude/tasks/doing/
 mv .claude/tasks/<nome-da-task>.md .claude/tasks/doing/
 
-# Commit e push no main
+# Commit e push no ia-main
 git add .claude/tasks/
 git commit -m "move: task <número> para doing"
-git push origin main
+git push origin ia-main
 ```
 
 #### 3. Criação do Worktree
 ```bash
 # Sintaxe obrigatória:
-git worktree add .claude/worktrees/<nome-da-task> -b <nome-do-branch> main
+git worktree add .claude/worktrees/<nome-da-task> -b <nome-do-branch> ia-main
 
 # Exemplo para task 006-feat-nova-funcionalidade:
-git worktree add .claude/worktrees/006-feat-nova-funcionalidade -b feature/006-feat-nova-funcionalidade main
+git worktree add .claude/worktrees/006-feat-nova-funcionalidade -b feature/006-feat-nova-funcionalidade ia-main
 
 # Nomenclatura do branch:
 # - feat: feature/<número>-<tipo>-<resumo>
@@ -114,11 +114,11 @@ cd ../../..
 # Mover task para done
 mv .claude/tasks/doing/<nome-da-task>.md .claude/tasks/done/
 
-# Commit e push no main
-git checkout main
+# Commit e push no ia-main
+git checkout ia-main
 git add .claude/tasks/
 git commit -m "move: task <número> para done"
-git push origin main
+git push origin ia-main
 ```
 
 #### 3. Abertura de Pull Request
@@ -130,14 +130,14 @@ cd .claude/worktrees/<nome-da-task>
 git branch --show-current
 # Deve mostrar: feature/<número>-<tipo>-<resumo>
 
-# Abrir PR contra main
-gh pr create --base main --title "<número>: <resumo>" --body "Closes task <número>"
+# Abrir PR contra ia-main
+gh pr create --base ia-main --title "<número>: <resumo>" --body "Closes task <número>"
 
 # Exemplo:
-# gh pr create --base main --title "006: Nova funcionalidade" --body "Closes task 006"
+# gh pr create --base ia-main --title "006: Nova funcionalidade" --body "Closes task 006"
 ```
 
-**⚠️ NUNCA abrir PR contra outro branch que não seja `main`.**
+**⚠️ NUNCA abrir PR contra outro branch que não seja `ia-main`.**
 
 #### 4. Após PR Mergeado (ETAPA FINAL)
 ```bash
@@ -187,12 +187,12 @@ git worktree prune
 ## ⚠️ Regras Críticas
 
 ### ✅ Obrigatório
-- Branch base SEMPRE `main`
+- Branch base SEMPRE `ia-main`
 - Worktrees SEMPRE em `.claude/worktrees/`
 - Verificar branch antes de iniciar task
 - Perguntar autorização para trocar de branch
 - Mover task para doing antes de criar worktree
-- Commit e push da movimentação no main
+- Commit e push da movimentação no ia-main
 - Marcar itens da task durante implementação
 - Notificar PO quando concluir
 - PO abre PR do branch da feature
@@ -200,9 +200,9 @@ git worktree prune
 
 ### ❌ Proibido
 - Criar worktree fora de `.claude/worktrees/`
-- Partir de branch diferente de `main`
+- Partir de branch diferente de `ia-main`
 - Agent remover worktree (só PO pode)
-- Abrir PR contra outro branch que não seja `main`
+- Abrir PR contra outro branch que não seja `ia-main`
 - Remover worktree antes do PR ser mergeado
 - Esquecer de fazer push do branch
 
@@ -223,7 +223,7 @@ git branch -d <nome-do-branch>
 ### "Não estou no branch correto"
 ```bash
 git branch --show-current
-# Se não for main (para início) ou feature/* (para trabalho):
+# Se não for ia-main (para início) ou feature/* (para trabalho):
 # Perguntar ao usuário o que fazer
 ```
 
@@ -243,7 +243,7 @@ git branch --show-current
 2. **SEMPRE** perguntar antes de trocar de branch
 3. **SEMPRE** mover task para doing antes de criar worktree
 4. **SEMPRE** criar worktree em `.claude/worktrees/`
-5. **SEMPRE** partir de `main`
+5. **SEMPRE** partir de `ia-main`
 6. **SEMPRE** notificar PO quando concluir
 7. **NUNCA** remover worktree (só PO pode)
 8. **NUNCA** abrir PR (só PO pode)
@@ -252,4 +252,4 @@ git branch --show-current
 
 **Este documento deve ser consultado por todos os agents (dev, devops, qa) ao receber uma nova task.**
 
-> Adaptado do fluxo original do projeto [henrylle/bia (branch ia-main)](https://github.com/henrylle/bia/tree/ia-main/.kiro), trocando a branch base `ia-main` por `main` para este fork.
+> Adaptado do fluxo original do projeto [henrylle/bia (branch ia-main)](https://github.com/henrylle/bia/tree/ia-main/.kiro). Este fork usa `ia-main` como branch base do fluxo de agentes, assim como o projeto de referência; a branch `main` deste repositório é mantida separada, sem a configuração de agentes.

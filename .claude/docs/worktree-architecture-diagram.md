@@ -5,7 +5,7 @@
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                    REPOSITÓRIO PRINCIPAL                        │
-│                   /bia/.git/ (main)                              │
+│                   /bia/.git/ (ia-main)                              │
 └─────────────────────────────────────────────────────────────────┘
                               │
                               ├─── Compartilhado por todos
@@ -34,7 +34,7 @@
 │  (Main)         │  │  (Feature 001)  │  │  (Feature 002)  │
 ├─────────────────┤  ├─────────────────┤  ├─────────────────┤
 │ Branch:         │  │ Branch:         │  │ Branch:         │
-│ main            │  │ teste-001       │  │ teste-002       │
+│ ia-main            │  │ teste-001       │  │ teste-002       │
 │                 │  │                 │  │                 │
 │ Working Tree:   │  │ Working Tree:   │  │ Working Tree:   │
 │ /bia/           │  │ .claude/worktrees/│  │ .claude/worktrees/│
@@ -65,7 +65,7 @@
 ┌─────────────────────┬──────────────┬──────────────┬──────────────┐
 │ Componente          │  Worktree 1  │  Worktree 2  │  Worktree 3  │
 ├─────────────────────┼──────────────┼──────────────┼──────────────┤
-│ Branch Ativo        │     main     │  teste-001   │  teste-002   │
+│ Branch Ativo        │     ia-main     │  teste-001   │  teste-002   │
 │                     │      🔒      │      🔒      │      🔒      │
 ├─────────────────────┼──────────────┼──────────────┼──────────────┤
 │ Working Directory   │    /bia/     │  .claude/...   │  .claude/...   │
@@ -105,7 +105,7 @@ Legenda:
 1️⃣  INÍCIO: Repository Principal
     ┌────────────────┐
     │   /bia/        │
-    │   (main)       │
+    │   (ia-main)       │
     └────────┬───────┘
              │
              │ git worktree add
@@ -203,7 +203,7 @@ Projeto: BIA - Formação AWS
 ┌──────────────────────────────────────────────────────────────┐
 │ WORKTREE PRINCIPAL                                           │
 │ /caminho/formacaoaws/bia/                                    │
-│ Branch: main                                                  │
+│ Branch: ia-main                                                  │
 │ Status: Desenvolvimento contínuo                             │
 │ Terminal: Rodando servidor de desenvolvimento               │
 └──────────────────────────────────────────────────────────────┘
@@ -226,7 +226,7 @@ Projeto: BIA - Formação AWS
 └─────────────────────────────┴────────────────────────────────┘
 
 Vantagens:
-✅ Servidor dev continua rodando em main
+✅ Servidor dev continua rodando em ia-main
 ✅ Feature development sem interrupção
 ✅ Hotfix aplicado sem perder contexto
 ✅ Cada worktree com seu próprio node_modules
@@ -245,8 +245,8 @@ Vantagens:
 PASSO 1: Criar Worktrees
 ─────────────────────────
 
-$ git worktree add .claude/worktrees/teste-001 -b teste-001 main
-$ git worktree add .claude/worktrees/teste-002 -b teste-002 main
+$ git worktree add .claude/worktrees/teste-001 -b teste-001 ia-main
+$ git worktree add .claude/worktrees/teste-002 -b teste-002 ia-main
 
         ┌─────────────┐        ┌─────────────┐
         │ Worktree 1  │        │ Worktree 2  │
@@ -366,6 +366,6 @@ Produtividade         Baixa           Alta            200% ⬆️
 ---
 
 **Propósito**: Documentação visual para facilitar compreensão
-**Versão**: 1.0 (adaptado para branch `main`)
+**Versão**: 1.0 (adaptado para branch `ia-main`)
 
 > Adaptado do fluxo original do projeto [henrylle/bia (branch ia-main)](https://github.com/henrylle/bia/tree/ia-main/.kiro).

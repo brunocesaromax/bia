@@ -6,11 +6,11 @@
 **dev** - Este agent deve iniciar a implementação (testes de backend Node/Express, `tests/`). **Não é `qa`**: neste projeto o agente `qa` é especificamente para testes de UI via Playwright/navegador; testes automatizados de backend (unitários/Jest) são responsabilidade do `dev`.
 
 ### Branch Base
-**SEMPRE `main`**
+**SEMPRE `ia-main`**
 
 ### ⚠️ Dependência bloqueante (LEIA ANTES DE INICIAR)
-**Esta task DEPENDE da task 002 (`002-feat-api-dados-versao.md`) estar concluída e com o PR já mergeado em `main`.**
-- O worktree desta task 003 é criado a partir de `main` (ver fluxo padrão abaixo). Se o PR da task 002 ainda não foi mergeado, o endpoint `GET /api/versao/info` **não vai existir** na branch base, e esta task não pode ser iniciada.
+**Esta task DEPENDE da task 002 (`002-feat-api-dados-versao.md`) estar concluída e com o PR já mergeado em `ia-main`.**
+- O worktree desta task 003 é criado a partir de `ia-main` (ver fluxo padrão abaixo). Se o PR da task 002 ainda não foi mergeado, o endpoint `GET /api/versao/info` **não vai existir** na branch base, e esta task não pode ser iniciada.
 - **Antes de mover esta task para `doing` e criar o worktree, o PO deve confirmar que a task 002 está em `done` e seu PR mergeado.** Se isso ainda não aconteceu, esta task permanece em `todo`.
 
 ### Worktree
@@ -22,24 +22,24 @@ Esta task será implementada em worktree isolado em `.claude/worktrees/003-test-
 
 Antes de começar a implementar, o agent deve:
 
-- [ ] **Confirmar que a task 002 está em `done` e o PR foi mergeado em `main`** (perguntar ao PO se houver qualquer dúvida)
+- [ ] **Confirmar que a task 002 está em `done` e o PR foi mergeado em `ia-main`** (perguntar ao PO se houver qualquer dúvida)
 - [ ] **Verificar branch atual:** `git branch --show-current`
-  - Se não estiver em `main`, **PERGUNTAR** ao usuário se pode trocar
+  - Se não estiver em `ia-main`, **PERGUNTAR** ao usuário se pode trocar
   - Aguardar autorização
-  - Após autorização: `git checkout main && git pull origin main`
-- [ ] **Confirmar que `main` já contém o endpoint `GET /api/versao/info`** (ex.: `grep -n "versao/info" api/routes/versao.js`) antes de prosseguir
+  - Após autorização: `git checkout ia-main && git pull origin ia-main`
+- [ ] **Confirmar que `ia-main` já contém o endpoint `GET /api/versao/info`** (ex.: `grep -n "versao/info" api/routes/versao.js`) antes de prosseguir
 
 - [ ] **Mover task para doing:**
   ```bash
   mv .claude/tasks/003-test-api-dados-versao.md .claude/tasks/doing/
   git add .claude/tasks/
   git commit -m "move: task 003 para doing"
-  git push origin main
+  git push origin ia-main
   ```
 
 - [ ] **Criar worktree:**
   ```bash
-  git worktree add .claude/worktrees/003-test-api-dados-versao -b test/003-test-api-dados-versao main
+  git worktree add .claude/worktrees/003-test-api-dados-versao -b test/003-test-api-dados-versao ia-main
   cd .claude/worktrees/003-test-api-dados-versao
   git branch --show-current  # Confirmar branch correto
   ```
@@ -181,11 +181,11 @@ cd ../../..
 # Mover task para done
 mv .claude/tasks/doing/003-test-api-dados-versao.md .claude/tasks/done/
 
-# Commit e push no main
-git checkout main
+# Commit e push no ia-main
+git checkout ia-main
 git add .claude/tasks/
 git commit -m "move: task 003 para done"
-git push origin main
+git push origin ia-main
 ```
 
 ### 3. Abrir Pull Request
@@ -195,8 +195,8 @@ cd .claude/worktrees/003-test-api-dados-versao
 git branch --show-current
 # Deve mostrar: test/003-test-api-dados-versao
 
-# Abrir PR contra main
-gh pr create --base main --title "003: Testes Automatizados da API de Dados de Versão" --body "Closes task 003"
+# Abrir PR contra ia-main
+gh pr create --base ia-main --title "003: Testes Automatizados da API de Dados de Versão" --body "Closes task 003"
 ```
 
 ### 4. Após PR Mergeado
@@ -234,7 +234,7 @@ git branch -d test/003-test-api-dados-versao
 **1 Story Point** - Baixa complexidade: segue padrão de teste já existente e validado no projeto, sem necessidade de nova ferramenta ou infraestrutura de teste.
 
 ## 🔗 Dependências
-**Depende da task 002** (`002-feat-api-dados-versao.md`). Esta task só deve ser movida para `doing` (e ter seu worktree criado) **após o PR da task 002 ser mergeado em `main`**, pois o worktree é criado a partir de `main` e precisa conter o endpoint `GET /api/versao/info` para que os testes possam ser escritos contra o código real.
+**Depende da task 002** (`002-feat-api-dados-versao.md`). Esta task só deve ser movida para `doing` (e ter seu worktree criado) **após o PR da task 002 ser mergeado em `ia-main`**, pois o worktree é criado a partir de `ia-main` e precisa conter o endpoint `GET /api/versao/info` para que os testes possam ser escritos contra o código real.
 
 ---
 

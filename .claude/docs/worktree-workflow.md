@@ -47,7 +47,7 @@ Quando você (PO) cria uma nova task, o processo é:
 # Task especifica:
 # - Agent responsável (dev, devops, qa)
 # - Checklist de atividades
-# - Branch base: SEMPRE main
+# - Branch base: SEMPRE ia-main
 ```
 
 ### 2️⃣ Início da Implementação (Agent Dev/DevOps/QA)
@@ -57,15 +57,15 @@ O agent que receber a task deve:
 **a) Verificar branch atual**
 ```bash
 git branch --show-current
-# Deve estar em: main
+# Deve estar em: ia-main
 ```
 
-**b) Se não estiver em main, perguntar autorização para trocar**
+**b) Se não estiver em ia-main, perguntar autorização para trocar**
 ```bash
-# Agent pergunta: "Não estou em main. Posso trocar para ele?"
+# Agent pergunta: "Não estou em ia-main. Posso trocar para ele?"
 # Após autorização:
-git checkout main
-git pull origin main
+git checkout ia-main
+git pull origin ia-main
 ```
 
 **c) Mover task para doing**
@@ -78,16 +78,16 @@ mv .claude/tasks/006-feat-nova-funcionalidade.md .claude/tasks/doing/
 ```bash
 git add .claude/tasks/
 git commit -m "move: task 006 para doing"
-git push origin main
+git push origin ia-main
 ```
 
 **e) Criar worktree para a task**
 ```bash
 # Sintaxe:
-git worktree add .claude/worktrees/<nome-da-task> -b <nome-do-branch> main
+git worktree add .claude/worktrees/<nome-da-task> -b <nome-do-branch> ia-main
 
 # Exemplo:
-git worktree add .claude/worktrees/006-feat-nova-funcionalidade -b feature/006-feat-nova-funcionalidade main
+git worktree add .claude/worktrees/006-feat-nova-funcionalidade -b feature/006-feat-nova-funcionalidade ia-main
 ```
 
 **f) Entrar no worktree e trabalhar**
@@ -116,7 +116,7 @@ git push -u origin feature/006-feat-nova-funcionalidade
 - [ ] Marcar itens da task conforme conclusão
 - [ ] Fazer commits frequentes e descritivos
 - [ ] Testar localmente
-- [ ] Manter branch atualizado com main (se necessário)
+- [ ] Manter branch atualizado com ia-main (se necessário)
 
 **Comandos úteis dentro do worktree:**
 ```bash
@@ -177,12 +177,12 @@ cd ../../..
 mv .claude/tasks/doing/006-feat-nova-funcionalidade.md .claude/tasks/done/
 ```
 
-**c) Commit e push no main**
+**c) Commit e push no ia-main**
 ```bash
-git checkout main
+git checkout ia-main
 git add .claude/tasks/
 git commit -m "move: task 006 para done"
-git push origin main
+git push origin ia-main
 ```
 
 **d) Abrir Pull Request**
@@ -192,8 +192,8 @@ cd .claude/worktrees/006-feat-nova-funcionalidade
 git branch --show-current
 # Deve mostrar: feature/006-feat-nova-funcionalidade
 
-# Abrir PR contra main
-gh pr create --base main --title "006: Nova funcionalidade" --body "Closes task 006"
+# Abrir PR contra ia-main
+gh pr create --base ia-main --title "006: Nova funcionalidade" --body "Closes task 006"
 ```
 
 **e) Após PR ser MERGEADO, remover worktree**
@@ -229,7 +229,7 @@ git branch -d feature/006-feat-nova-funcionalidade
                      ↓
 6. PO revisa → move para .claude/tasks/done/
                      ↓
-7. PO abre PR → gh pr create --base main
+7. PO abre PR → gh pr create --base ia-main
                      ↓
 8. PR mergeado → PO remove worktree
 ```
@@ -238,7 +238,7 @@ git branch -d feature/006-feat-nova-funcionalidade
 
 ### Criar Worktree
 ```bash
-git worktree add .claude/worktrees/<nome> -b <branch> main
+git worktree add .claude/worktrees/<nome> -b <branch> ia-main
 ```
 
 ### Listar Worktrees
@@ -266,7 +266,7 @@ git branch --show-current
 ## ⚠️ Regras Importantes
 
 ### ✅ O que FAZER
-- Sempre partir de `main`
+- Sempre partir de `ia-main`
 - Criar worktree em `.claude/worktrees/`
 - Fazer commits frequentes
 - Marcar itens da task durante implementação
@@ -275,10 +275,10 @@ git branch --show-current
 
 ### ❌ O que NÃO fazer
 - Não criar worktree fora de `.claude/worktrees/`
-- Não partir de outro branch que não seja `main`
+- Não partir de outro branch que não seja `ia-main`
 - Não remover worktree antes do PR ser mergeado
 - Não esquecer de fazer push do branch
-- Não abrir PR contra outro branch que não seja `main`
+- Não abrir PR contra outro branch que não seja `ia-main`
 
 ## 🔧 Troubleshooting
 
@@ -314,7 +314,7 @@ git branch -d <nome-do-branch>
 | Termo | Significado |
 |-------|-------------|
 | **Worktree** | Diretório separado com seu próprio branch |
-| **Branch base** | Branch de onde o novo branch é criado (sempre `main`) |
+| **Branch base** | Branch de onde o novo branch é criado (sempre `ia-main`) |
 | **`.claude/worktrees/`** | Pasta onde ficam todos os worktrees |
 | **`git worktree list`** | Comando para ver todos os worktrees ativos |
 | **`git worktree remove`** | Comando para remover um worktree |
@@ -323,4 +323,4 @@ git branch -d <nome-do-branch>
 
 **Lembre-se:** Worktrees são como "escritórios separados" dentro do mesmo projeto. Cada um tem suas próprias mudanças, mas todos compartilham o mesmo histórico Git! 🚀
 
-> Adaptado do fluxo original do projeto [henrylle/bia (branch ia-main)](https://github.com/henrylle/bia/tree/ia-main/.kiro), trocando a branch base `ia-main` por `main` para este fork.
+> Adaptado do fluxo original do projeto [henrylle/bia (branch ia-main)](https://github.com/henrylle/bia/tree/ia-main/.kiro). Este fork usa `ia-main` como branch base do fluxo de agentes, assim como o projeto de referência; a branch `main` deste repositório é mantida separada, sem a configuração de agentes.

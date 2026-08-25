@@ -16,12 +16,12 @@ Antes de abrir qualquer PR, confirme que o `gh` está instalado e autenticado (`
 
 # Sobre a task que vai ser criada
 - No início da task, você precisa colocar informações importantes sobre o nosso modelo de trabalho. 
-Vamos adotar um modelo feature/branch com **worktrees isolados**, ou seja, cada task terá o seu branch E seu próprio worktree. O branch deverá ter o nome da task e SEMPRE derivar do branch main. Ao criar a task, você precisa especificar qual agent deve iniciar ela.
+Vamos adotar um modelo feature/branch com **worktrees isolados**, ou seja, cada task terá o seu branch E seu próprio worktree. O branch deverá ter o nome da task e SEMPRE derivar do branch ia-main. Ao criar a task, você precisa especificar qual agent deve iniciar ela.
 
 ## Workflow de Worktree (OBRIGATÓRIO)
 - **Padrão adotado:** Claude/Codex pattern - worktrees dentro do projeto
 - **Localização dos worktrees:** `.claude/worktrees/` (já está no .gitignore)
-- **Branch base:** SEMPRE `main`
+- **Branch base:** SEMPRE `ia-main`
 
 ### Início da Task pelo Agent
 O agent que iniciar a task deverá seguir este fluxo OBRIGATÓRIO:
@@ -30,13 +30,13 @@ O agent que iniciar a task deverá seguir este fluxo OBRIGATÓRIO:
    ```bash
    git branch --show-current
    ```
-   - Se NÃO estiver em `main`, deve informar e perguntar se pode retornar para ele antes de iniciar a task
+   - Se NÃO estiver em `ia-main`, deve informar e perguntar se pode retornar para ele antes de iniciar a task
    - Aguardar autorização do usuário
 
-2. **Após autorização, trocar para main e atualizar:**
+2. **Após autorização, trocar para ia-main e atualizar:**
    ```bash
-   git checkout main
-   git pull origin main
+   git checkout ia-main
+   git pull origin ia-main
    ```
 
 3. **Mover a task para doing:**
@@ -44,16 +44,16 @@ O agent que iniciar a task deverá seguir este fluxo OBRIGATÓRIO:
    mv .claude/tasks/XXX-tipo-resumo.md .claude/tasks/doing/
    ```
 
-4. **Commit e push da movimentação no main:**
+4. **Commit e push da movimentação no ia-main:**
    ```bash
    git add .claude/tasks/
    git commit -m "move: task XXX para doing"
-   git push origin main
+   git push origin ia-main
    ```
 
 5. **Criar worktree para a task:**
    ```bash
-   git worktree add .claude/worktrees/XXX-tipo-resumo -b feature/XXX-tipo-resumo main
+   git worktree add .claude/worktrees/XXX-tipo-resumo -b feature/XXX-tipo-resumo ia-main
    ```
    - O worktree DEVE ser criado em `.claude/worktrees/`
    - O nome do worktree DEVE ser igual ao nome da task
@@ -98,23 +98,23 @@ mover esse arquivo para uma pasta na mesma folder acima, chamado done/
     - Tudo estando ok, você vai me informar que está finalizado
     - **Voltar para raiz:** `cd ../../..`
     - Mover a task para done: `mv .claude/tasks/doing/XXX-tipo-resumo.md .claude/tasks/done/`
-    - Fazer commit e push final no main:
+    - Fazer commit e push final no ia-main:
       ```bash
-      git checkout main
+      git checkout ia-main
       git add .claude/tasks/
       git commit -m "move: task XXX para done"
-      git push origin main
+      git push origin ia-main
       ```
     - **ANTES de abrir o PR, entrar no worktree da feature:**
       ```bash
       cd .claude/worktrees/XXX-tipo-resumo
       git branch --show-current  # Confirmar que está em feature/XXX-tipo-resumo
       ```
-    - Abrir Pull Request do branch da feature contra o branch `main`:
+    - Abrir Pull Request do branch da feature contra o branch `ia-main`:
       ```bash
-      gh pr create --base main --title "XXX: <resumo>" --body "Closes task XXX"
+      gh pr create --base ia-main --title "XXX: <resumo>" --body "Closes task XXX"
       ```
-    - O PR deve sempre ser aberto do branch da feature (ex: `feature/004-feat-checkbox-importante-padrao`) contra `main`
+    - O PR deve sempre ser aberto do branch da feature (ex: `feature/004-feat-checkbox-importante-padrao`) contra `ia-main`
     - Nunca abrir PR contra qualquer outro branch
     
     - **APÓS O PR SER MERGEADO (ETAPA FINAL):**
@@ -150,7 +150,7 @@ Ao criar uma task, você DEVE incluir estas seções obrigatórias:
 **[dev/devops/qa]** - Este agent deve iniciar a implementação.
 
 ### Branch Base
-**SEMPRE `main`**
+**SEMPRE `ia-main`**
 
 ### Worktree
 Esta task será implementada em worktree isolado em `.claude/worktrees/XXX-tipo-resumo/`
@@ -163,21 +163,21 @@ Esta task será implementada em worktree isolado em `.claude/worktrees/XXX-tipo-
 Antes de começar a implementar, o agent deve:
 
 - [ ] **Verificar branch atual:** `git branch --show-current`
-  - Se não estiver em `main`, **PERGUNTAR** ao usuário se pode trocar
+  - Se não estiver em `ia-main`, **PERGUNTAR** ao usuário se pode trocar
   - Aguardar autorização
-  - Após autorização: `git checkout main && git pull origin main`
+  - Após autorização: `git checkout ia-main && git pull origin ia-main`
 
 - [ ] **Mover task para doing:**
   ```bash
   mv .claude/tasks/XXX-tipo-resumo.md .claude/tasks/doing/
   git add .claude/tasks/
   git commit -m "move: task XXX para doing"
-  git push origin main
+  git push origin ia-main
   ```
 
 - [ ] **Criar worktree:**
   ```bash
-  git worktree add .claude/worktrees/XXX-tipo-resumo -b feature/XXX-tipo-resumo main
+  git worktree add .claude/worktrees/XXX-tipo-resumo -b feature/XXX-tipo-resumo ia-main
   cd .claude/worktrees/XXX-tipo-resumo
   git branch --show-current  # Confirmar branch correto
   ```
@@ -239,11 +239,11 @@ cd ../../..
 # Mover task para done
 mv .claude/tasks/doing/XXX-tipo-resumo.md .claude/tasks/done/
 
-# Commit e push no main
-git checkout main
+# Commit e push no ia-main
+git checkout ia-main
 git add .claude/tasks/
 git commit -m "move: task XXX para done"
-git push origin main
+git push origin ia-main
 ```
 
 ### 3. Abrir Pull Request
@@ -253,8 +253,8 @@ cd .claude/worktrees/XXX-tipo-resumo
 git branch --show-current
 # Deve mostrar: feature/XXX-tipo-resumo
 
-# Abrir PR contra main
-gh pr create --base main --title "XXX: [Resumo]" --body "Closes task XXX"
+# Abrir PR contra ia-main
+gh pr create --base ia-main --title "XXX: [Resumo]" --body "Closes task XXX"
 ```
 
 ### 4. Após PR Mergeado

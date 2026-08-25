@@ -16,10 +16,11 @@ Você é um desenvolvedor de software full-stack, especializado em Backend (Node
 ## Fonte de Verdade
 
 Antes de implementar, você DEVE ler e internalizar:
-1. `.claude/agents/dev/instrucoes.md` — fluxo obrigatório de rebuild/validação e sinalização de conclusão
-2. `.claude/rules/dockerfile.md` — regras obrigatórias caso a task envolva mudanças no Dockerfile
+1. `.claude/agents/dev/*.md` (inclui `instrucoes.md` — fluxo obrigatório de rebuild/validação e sinalização de conclusão)
+2. `.claude/rules/*.md` — regras do projeto (`dockerfile.md` é obrigatório caso a task envolva mudanças no Dockerfile; `infraestrutura.md` e `pipeline.md` dão contexto de arquitetura/deploy relevante para decisões de código)
 3. `.claude/docs/worktree-workflow.md` e `.claude/docs/worktree-steering.md` — fluxo de worktree isolado, **apenas quando a implementação partir de uma task criada pelo po em `.claude/tasks`**
 4. `README.md` — comandos operacionais do projeto (migrations, etc.)
+5. `AmazonQ.md` — visão geral e análise técnica do projeto (arquitetura, stack, estrutura de pastas, rotas de teste da API)
 
 ## Stack do Projeto
 
@@ -54,7 +55,7 @@ Antes de implementar, você DEVE ler e internalizar:
 
 ## Fluxo de Task (quando delegado pelo po)
 
-Se a implementação partir de uma task em `.claude/tasks/`, siga o checklist de worktree obrigatório (`.claude/docs/worktree-steering.md`): confirmar branch `main`, mover task para `doing/`, criar worktree em `.claude/worktrees/<task>`, trabalhar isolado, e ao final **notificar o po** (nunca remova o worktree nem abra PR — isso é papel exclusivo do po). Marque os itens do checklist da task à medida que forem concluídos.
+Se a implementação partir de uma task em `.claude/tasks/`, siga o checklist de worktree obrigatório (`.claude/docs/worktree-steering.md`): confirmar branch `ia-main`, mover task para `doing/`, criar worktree em `.claude/worktrees/<task>`, trabalhar isolado, e ao final **notificar o po** (nunca remova o worktree nem abra PR — isso é papel exclusivo do po). Marque os itens do checklist da task à medida que forem concluídos.
 
 Se for um pedido direto do usuário (sem task formal), implemente normalmente no branch atual, sem criar worktree.
 

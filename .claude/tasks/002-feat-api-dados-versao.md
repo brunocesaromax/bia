@@ -6,7 +6,7 @@
 **dev** - Este agent deve iniciar a implementação (backend Node/Express, `api/`).
 
 ### Branch Base
-**SEMPRE `main`**
+**SEMPRE `ia-main`**
 
 ### Worktree
 Esta task será implementada em worktree isolado em `.claude/worktrees/002-feat-api-dados-versao/`
@@ -18,21 +18,21 @@ Esta task será implementada em worktree isolado em `.claude/worktrees/002-feat-
 Antes de começar a implementar, o agent deve:
 
 - [ ] **Verificar branch atual:** `git branch --show-current`
-  - Se não estiver em `main`, **PERGUNTAR** ao usuário se pode trocar
+  - Se não estiver em `ia-main`, **PERGUNTAR** ao usuário se pode trocar
   - Aguardar autorização
-  - Após autorização: `git checkout main && git pull origin main`
+  - Após autorização: `git checkout ia-main && git pull origin ia-main`
 
 - [ ] **Mover task para doing:**
   ```bash
   mv .claude/tasks/002-feat-api-dados-versao.md .claude/tasks/doing/
   git add .claude/tasks/
   git commit -m "move: task 002 para doing"
-  git push origin main
+  git push origin ia-main
   ```
 
 - [ ] **Criar worktree:**
   ```bash
-  git worktree add .claude/worktrees/002-feat-api-dados-versao -b feature/002-feat-api-dados-versao main
+  git worktree add .claude/worktrees/002-feat-api-dados-versao -b feature/002-feat-api-dados-versao ia-main
   cd .claude/worktrees/002-feat-api-dados-versao
   git branch --show-current  # Confirmar branch correto
   ```
@@ -175,7 +175,7 @@ cd ../../..  # Voltar para raiz do projeto
 ```
 
 **NOTIFICAR O PO:**
-> "Task 002 concluída. Todos os itens do checklist marcados. Branch `feature/002-feat-api-dados-versao` com push realizado. Aguardando revisão do PO para encerramento e abertura de PR. **Atenção:** a task 003 depende desta e só deve ser iniciada após o PR desta task ser mergeado em `main`."
+> "Task 002 concluída. Todos os itens do checklist marcados. Branch `feature/002-feat-api-dados-versao` com push realizado. Aguardando revisão do PO para encerramento e abertura de PR. **Atenção:** a task 003 depende desta e só deve ser iniciada após o PR desta task ser mergeado em `ia-main`."
 
 **⚠️ NÃO REMOVER O WORKTREE. Apenas o PO faz isso após o PR ser mergeado.**
 
@@ -200,11 +200,11 @@ cd ../../..
 # Mover task para done
 mv .claude/tasks/doing/002-feat-api-dados-versao.md .claude/tasks/done/
 
-# Commit e push no main
-git checkout main
+# Commit e push no ia-main
+git checkout ia-main
 git add .claude/tasks/
 git commit -m "move: task 002 para done"
-git push origin main
+git push origin ia-main
 ```
 
 ### 3. Abrir Pull Request
@@ -214,8 +214,8 @@ cd .claude/worktrees/002-feat-api-dados-versao
 git branch --show-current
 # Deve mostrar: feature/002-feat-api-dados-versao
 
-# Abrir PR contra main
-gh pr create --base main --title "002: API de Dados de Versão Estruturados" --body "Closes task 002"
+# Abrir PR contra ia-main
+gh pr create --base ia-main --title "002: API de Dados de Versão Estruturados" --body "Closes task 002"
 ```
 
 ### 4. Após PR Mergeado
@@ -238,7 +238,7 @@ git branch -d feature/002-feat-api-dados-versao
 # Notificar conclusão
 ```
 
-**⚠️ IMPORTANTE: só depois do merge desta task 002, a task 003 (dependente) pode ter seu worktree criado a partir de `main`, pois o novo endpoint precisa estar disponível na branch base.**
+**⚠️ IMPORTANTE: só depois do merge desta task 002, a task 003 (dependente) pode ter seu worktree criado a partir de `ia-main`, pois o novo endpoint precisa estar disponível na branch base.**
 
 ---
 
@@ -256,7 +256,7 @@ git branch -d feature/002-feat-api-dados-versao
 **2 Story Points** - Baixa complexidade: endpoint aditivo simples, reaproveitando lógica já existente, sem novas dependências.
 
 ## 🔗 Dependências
-Nenhuma dependência de entrada. **É pré-requisito da task 003** (`003-test-api-dados-versao.md`), que só deve iniciar após o PR desta task ser mergeado em `main`.
+Nenhuma dependência de entrada. **É pré-requisito da task 003** (`003-test-api-dados-versao.md`), que só deve iniciar após o PR desta task ser mergeado em `ia-main`.
 
 ---
 

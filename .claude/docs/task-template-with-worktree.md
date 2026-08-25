@@ -6,7 +6,7 @@
 **[dev/devops/qa]** - Este agent deve iniciar a implementação.
 
 ### Branch Base
-**SEMPRE `main`**
+**SEMPRE `ia-main`**
 
 ### Worktree
 Esta task será implementada em worktree isolado em `.claude/worktrees/XXX-tipo-resumo/`
@@ -18,21 +18,21 @@ Esta task será implementada em worktree isolado em `.claude/worktrees/XXX-tipo-
 Antes de começar a implementar, o agent deve:
 
 - [ ] **Verificar branch atual:** `git branch --show-current`
-  - Se não estiver em `main`, **PERGUNTAR** ao usuário se pode trocar
+  - Se não estiver em `ia-main`, **PERGUNTAR** ao usuário se pode trocar
   - Aguardar autorização
-  - Após autorização: `git checkout main && git pull origin main`
+  - Após autorização: `git checkout ia-main && git pull origin ia-main`
 
 - [ ] **Mover task para doing:**
   ```bash
   mv .claude/tasks/XXX-tipo-resumo.md .claude/tasks/doing/
   git add .claude/tasks/
   git commit -m "move: task XXX para doing"
-  git push origin main
+  git push origin ia-main
   ```
 
 - [ ] **Criar worktree:**
   ```bash
-  git worktree add .claude/worktrees/XXX-tipo-resumo -b feature/XXX-tipo-resumo main
+  git worktree add .claude/worktrees/XXX-tipo-resumo -b feature/XXX-tipo-resumo ia-main
   cd .claude/worktrees/XXX-tipo-resumo
   git branch --show-current  # Confirmar branch correto
   ```
@@ -158,11 +158,11 @@ cd ../../..
 # Mover task para done
 mv .claude/tasks/doing/XXX-tipo-resumo.md .claude/tasks/done/
 
-# Commit e push no main
-git checkout main
+# Commit e push no ia-main
+git checkout ia-main
 git add .claude/tasks/
 git commit -m "move: task XXX para done"
-git push origin main
+git push origin ia-main
 ```
 
 ### 3. Abrir Pull Request
@@ -172,8 +172,8 @@ cd .claude/worktrees/XXX-tipo-resumo
 git branch --show-current
 # Deve mostrar: feature/XXX-tipo-resumo
 
-# Abrir PR contra main
-gh pr create --base main --title "XXX: [Resumo]" --body "Closes task XXX"
+# Abrir PR contra ia-main
+gh pr create --base ia-main --title "XXX: [Resumo]" --body "Closes task XXX"
 ```
 
 ### 4. Após PR Mergeado
