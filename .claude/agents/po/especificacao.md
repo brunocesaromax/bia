@@ -53,11 +53,15 @@ O agent que iniciar a task deverá seguir este fluxo OBRIGATÓRIO:
 
 5. **Criar worktree para a task:**
    ```bash
-   git worktree add .claude/worktrees/XXX-tipo-resumo -b feature/XXX-tipo-resumo ia-main
+   scripts/criar-worktree.sh XXX-tipo-resumo
    ```
+   - Use SEMPRE o script — além de criar o worktree, ele copia o `.env` do
+     worktree principal, então `docker compose up` já sobe com o banco conectado
    - O worktree DEVE ser criado em `.claude/worktrees/`
    - O nome do worktree DEVE ser igual ao nome da task
-   - O branch DEVE seguir o padrão: `feature/XXX-tipo-resumo` (ou `fix/` ou `test/`)
+   - O branch DEVE seguir o padrão: `feature/XXX-tipo-resumo` (ou `fix/` ou `test/`);
+     para `fix/`/`test/`, passe como 2º argumento: `scripts/criar-worktree.sh XXX-fix-resumo fix/XXX-fix-resumo`
+   - Equivalente manual: `git worktree add .claude/worktrees/XXX-tipo-resumo -b feature/XXX-tipo-resumo ia-main && cp .env .claude/worktrees/XXX-tipo-resumo/.env`
 
 6. **Entrar no worktree e confirmar:**
    ```bash
@@ -175,9 +179,9 @@ Antes de começar a implementar, o agent deve:
   git push origin ia-main
   ```
 
-- [ ] **Criar worktree:**
+- [ ] **Criar worktree** (o script já copia o `.env` do worktree principal → `docker compose up` sobe com o banco pronto):
   ```bash
-  git worktree add .claude/worktrees/XXX-tipo-resumo -b feature/XXX-tipo-resumo ia-main
+  scripts/criar-worktree.sh XXX-tipo-resumo
   cd .claude/worktrees/XXX-tipo-resumo
   git branch --show-current  # Confirmar branch correto
   ```

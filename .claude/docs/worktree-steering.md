@@ -38,16 +38,21 @@ git push origin ia-main
 
 #### 3. Criação do Worktree
 ```bash
-# Sintaxe obrigatória:
-git worktree add .claude/worktrees/<nome-da-task> -b <nome-do-branch> ia-main
+# Obrigatório: usar o script. Ele cria o worktree E copia o .env do worktree
+# principal, para que `docker compose up` já funcione com o banco conectado.
+scripts/criar-worktree.sh <nome-da-task> [branch] [branch-base]
 
-# Exemplo para task 006-feat-nova-funcionalidade:
-git worktree add .claude/worktrees/006-feat-nova-funcionalidade -b feature/006-feat-nova-funcionalidade ia-main
+# Exemplo para task 006-feat-nova-funcionalidade (branch e base assumem padrão):
+scripts/criar-worktree.sh 006-feat-nova-funcionalidade
 
-# Nomenclatura do branch:
+# Nomenclatura do branch (2º argumento, se precisar sobrescrever o padrão feature/):
 # - feat: feature/<número>-<tipo>-<resumo>
-# - fix: fix/<número>-<tipo>-<resumo>
+# - fix:  fix/<número>-<tipo>-<resumo>
 # - test: test/<número>-<tipo>-<resumo>
+
+# Equivalente manual (só se o script não existir):
+#   git worktree add .claude/worktrees/<nome> -b <branch> ia-main
+#   cp .env .claude/worktrees/<nome>/.env   # .env é git-ignored, não vem sozinho
 ```
 
 #### 4. Entrar no Worktree e Trabalhar
@@ -170,6 +175,11 @@ git worktree list
 ### Verificar Branch Atual
 ```bash
 git branch --show-current
+```
+
+### Criar Worktree (com .env provisionado)
+```bash
+scripts/criar-worktree.sh <nome> [branch] [branch-base]
 ```
 
 ### Remover Worktree (PO apenas)

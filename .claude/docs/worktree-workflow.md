@@ -82,13 +82,28 @@ git push origin ia-main
 ```
 
 **e) Criar worktree para a task**
+
+Use sempre o script — ele cria o worktree **e já copia o `.env` do worktree
+principal**, para que `docker compose up` funcione de imediato e o banco conecte
+sem ajuste manual:
+
 ```bash
 # Sintaxe:
-git worktree add .claude/worktrees/<nome-da-task> -b <nome-do-branch> ia-main
+scripts/criar-worktree.sh <nome-da-task> [branch] [branch-base]
 
-# Exemplo:
-git worktree add .claude/worktrees/006-feat-nova-funcionalidade -b feature/006-feat-nova-funcionalidade ia-main
+# Exemplo (branch = feature/<nome-da-task>, base = ia-main por padrão):
+scripts/criar-worktree.sh 006-feat-nova-funcionalidade
 ```
+
+Equivalente manual (só use se o script não estiver disponível):
+```bash
+git worktree add .claude/worktrees/006-feat-nova-funcionalidade -b feature/006-feat-nova-funcionalidade ia-main
+cp .env .claude/worktrees/006-feat-nova-funcionalidade/.env   # .env é git-ignored, não vem sozinho
+```
+
+> Por que copiar o `.env`: ele está no `.gitignore`, então não acompanha o
+> worktree. Sem ele, o `docker compose` sobe com as variáveis `DB_*` vazias e a
+> API não conecta no banco. `client/.env` é versionado e já vem junto.
 
 **f) Entrar no worktree e trabalhar**
 ```bash
@@ -238,7 +253,12 @@ git branch -d feature/006-feat-nova-funcionalidade
 
 ### Criar Worktree
 ```bash
+# Recomendado (cria o worktree + copia o .env do worktree principal):
+scripts/criar-worktree.sh <nome> [branch] [branch-base]
+
+# Manual:
 git worktree add .claude/worktrees/<nome> -b <branch> ia-main
+cp .env .claude/worktrees/<nome>/.env
 ```
 
 ### Listar Worktrees

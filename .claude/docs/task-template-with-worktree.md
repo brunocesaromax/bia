@@ -30,9 +30,10 @@ Antes de começar a implementar, o agent deve:
   git push origin ia-main
   ```
 
-- [ ] **Criar worktree:**
+- [ ] **Criar worktree** (o script já copia o `.env` do worktree principal, então
+  `docker compose up` funciona de imediato com o banco conectado):
   ```bash
-  git worktree add .claude/worktrees/XXX-tipo-resumo -b feature/XXX-tipo-resumo ia-main
+  scripts/criar-worktree.sh XXX-tipo-resumo
   cd .claude/worktrees/XXX-tipo-resumo
   git branch --show-current  # Confirmar branch correto
   ```
