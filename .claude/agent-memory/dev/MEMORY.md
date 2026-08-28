@@ -1,2 +1,3 @@
 - [Fluxo de worktree confirmado](dev_worktree_task_flow.md) — escopo de commit na raiz suja, mover task para doing, nunca remover worktree/abrir PR
 - [Setup de teste local do client](dev_client_testing_setup.md) — porta do Vite conflita com container (3001), VITE_API_URL para testar contra container já rodando, sem Playwright no dev
+- [Conflito de docker compose entre worktrees](dev_compose_worktree_conflict.md) — container_name/portas fixos: só um worktree roda o ambiente por vez; como testar sem derrubar o do vizinho
