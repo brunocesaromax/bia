@@ -2,3 +2,4 @@
 - [Design da API de versão estruturada](project_versao_api_design.md) — endpoint novo aditivo (/api/versao/info) em vez de quebrar /api/versao existente.
 - [Numeração e estado do backlog](project_task_numbering.md) — snapshot de tasks 001-003 e convenção de resumo compartilhado feat/test.
 - [Branch base voltou a ser ia-main](project_branch_base_ia_main.md) — desde 2026-08-24, fluxo usa ia-main (não main); exceção: task 001 legada nasceu de main.
+- [gh resolve repo como fork henrylle/bia](project_gh_pr_repo_fork.md) — PRs de encerramento exigem `-R brunocesaromax/bia` e `--head brunocesaromax:feature/<task>`.
