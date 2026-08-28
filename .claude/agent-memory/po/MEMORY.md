@@ -1,0 +1,4 @@
+- [Backend test infra já existe](project_backend_test_infra.md) — Jest + tests/unit/controllers já configurado, seguir esse padrão em novas tasks de teste de backend.
+- [Design da API de versão estruturada](project_versao_api_design.md) — endpoint novo aditivo (/api/versao/info) em vez de quebrar /api/versao existente.
+- [Numeração e estado do backlog](project_task_numbering.md) — snapshot de tasks 001-003 e convenção de resumo compartilhado feat/test.
+- [Branch base voltou a ser ia-main](project_branch_base_ia_main.md) — desde 2026-08-24, fluxo usa ia-main (não main); exceção: task 001 legada nasceu de main.
