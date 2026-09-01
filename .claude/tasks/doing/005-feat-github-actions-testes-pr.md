@@ -70,56 +70,56 @@ aprovarem PRs.
 ## ✅ Critérios de Aceitação
 
 ### Funcionalidades Principais
-- [ ] Existe o arquivo `.github/workflows/ci.yml` (novo diretório `.github/workflows/`).
-- [ ] O gatilho é `pull_request` com `branches: [ia-main]` (dispara em PR aberto, sincronizado e reaberto — comportamento padrão do evento `pull_request`).
-- [ ] O workflow executa, em um único job em `ubuntu-latest`:
+- [x] Existe o arquivo `.github/workflows/ci.yml` (novo diretório `.github/workflows/`).
+- [x] O gatilho é `pull_request` com `branches: [ia-main]` (dispara em PR aberto, sincronizado e reaberto — comportamento padrão do evento `pull_request`).
+- [x] O workflow executa, em um único job em `ubuntu-latest`:
   - `actions/checkout@v4`
   - `actions/setup-node@v4` com `node-version: 22` e `cache: npm`
   - `npm ci`
   - `npm test`
-- [ ] O workflow **não** declara nenhum `services:` (sem Postgres), pois os testes não usam banco.
-- [ ] O YAML é válido e o job tem um `name` claro (ex: `testes`) e o workflow um `name` claro (ex: `CI - Testes`).
+- [x] O workflow **não** declara nenhum `services:` (sem Postgres), pois os testes não usam banco.
+- [x] O YAML é válido e o job tem um `name` claro (ex: `testes`) e o workflow um `name` claro (ex: `CI - Testes`).
 
 ### Simplicidade
-- [ ] Nenhuma etapa extra além das necessárias (sem lint, sem matrix de versões, sem deploy, sem cache manual além do `cache: npm`).
-- [ ] Comentário curto no topo do YAML explicando o que ele faz (didático para alunos).
+- [x] Nenhuma etapa extra além das necessárias (sem lint, sem matrix de versões, sem deploy, sem cache manual além do `cache: npm`).
+- [x] Comentário curto no topo do YAML explicando o que ele faz (didático para alunos).
 
 ## 🧪 Testes / Validação
-- [ ] Validar o YAML localmente (ex: `npx --yes yaml-lint .github/workflows/ci.yml` ou revisão cuidadosa da indentação).
-- [ ] Rodar `npm ci && npm test` no worktree e confirmar que a suíte passa (é o mesmo comando que o CI vai rodar).
+- [x] Validar o YAML localmente (ex: `npx --yes yaml-lint .github/workflows/ci.yml` ou revisão cuidadosa da indentação).
+- [x] Rodar `npm ci && npm test` no worktree e confirmar que a suíte passa (é o mesmo comando que o CI vai rodar).
 - [ ] Após o push do branch e a abertura do PR (feita pelo PO), confirmar que o GitHub Actions dispara o workflow no PR e que ele fica verde.
 
 ## 📚 Definição de Pronto (DoD)
-- [ ] `.github/workflows/ci.yml` criado e commitado no branch da feature.
-- [ ] `npm ci && npm test` passa localmente no worktree.
-- [ ] Todos os itens do checklist marcados ✅
-- [ ] Commits descritivos e frequentes
-- [ ] Push do branch realizado
-- [ ] Código segue a filosofia de simplicidade do projeto
+- [x] `.github/workflows/ci.yml` criado e commitado no branch da feature.
+- [x] `npm ci && npm test` passa localmente no worktree.
+- [x] Todos os itens do checklist marcados ✅
+- [x] Commits descritivos e frequentes
+- [x] Push do branch realizado
+- [x] Código segue a filosofia de simplicidade do projeto
 
 ---
 
 ## 🎯 CHECKLIST DE IMPLEMENTAÇÃO (MARCAR DURANTE O TRABALHO)
 
 ### Configuração
-- [ ] Worktree criado e branch `feature/005-feat-github-actions-testes-pr` confirmado
-- [ ] `npm ci` rodado no worktree
+- [x] Worktree criado e branch `feature/005-feat-github-actions-testes-pr` confirmado
+- [x] `npm ci` rodado no worktree
 
 ### Desenvolvimento
-- [ ] Criar diretório `.github/workflows/`
-- [ ] Criar `.github/workflows/ci.yml` com o gatilho `pull_request` → `branches: [ia-main]`
-- [ ] Job único `testes` em `ubuntu-latest` com checkout + setup-node (Node 22, cache npm) + `npm ci` + `npm test`
-- [ ] Adicionar comentário didático no topo do arquivo
+- [x] Criar diretório `.github/workflows/`
+- [x] Criar `.github/workflows/ci.yml` com o gatilho `pull_request` → `branches: [ia-main]`
+- [x] Job único `testes` em `ubuntu-latest` com checkout + setup-node (Node 22, cache npm) + `npm ci` + `npm test`
+- [x] Adicionar comentário didático no topo do arquivo
 
 ### Testes
-- [ ] YAML validado (lint ou revisão de indentação)
-- [ ] `npm ci && npm test` executado com sucesso no worktree
+- [x] YAML validado (lint ou revisão de indentação)
+- [x] `npm ci && npm test` executado com sucesso no worktree
 
 ### Finalização
-- [ ] Código revisado
-- [ ] Commits finalizados com mensagens descritivas
-- [ ] Push do branch realizado
-- [ ] Todos os itens acima marcados ✅
+- [x] Código revisado
+- [x] Commits finalizados com mensagens descritivas
+- [x] Push do branch realizado
+- [x] Todos os itens acima marcados ✅
 
 ---
 
