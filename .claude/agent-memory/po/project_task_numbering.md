@@ -5,11 +5,13 @@ metadata:
   type: project
 ---
 
-Estado do backlog em 2026-08-24:
-- 001 (`001-feat-tela-versao-aplicacao.md`) — agent `dev`, status `todo`. Tela de versão no frontend, consome `GET /api/versao` (texto puro).
+Estado do backlog em 2026-09-01:
+- 001 (`001-feat-tela-versao-aplicacao.md`) — agent `dev`, status `doing` (worktree ativo).
 - 002 (`002-feat-api-dados-versao.md`) — agent `dev`, status `todo`. Novo endpoint `GET /api/versao/info` (JSON).
-- 003 (`003-test-api-dados-versao.md`) — agent `dev`, status `todo`. Testes automatizados do endpoint da task 002. **Depende da 002 estar em `done`/PR mergeado antes de iniciar** (worktree nasce de `ia-main`, que só terá o endpoint depois do merge).
-- `.claude/tasks/sequencial.md` atualizado para "Última Task: 003".
+- 003 (`003-test-api-dados-versao.md`) — agent `dev`, status `todo`. Testes do endpoint da 002. **Depende da 002 mergeada.**
+- 004 (`004-feat-checkbox-importante-marcado-padrao.md`) — status `done`, PR #1 mergeado.
+- 005 (`005-feat-github-actions-testes-pr.md`) — agent `devops`, status `done`. PR #2 mergeado (merge commit b81c017). Worktree removido, branch deletado. Trouxe `.github/workflows/ci.yml` (CI "CI - Testes" roda `npm ci && npm test` em todo PR contra ia-main).
+- `.claude/tasks/sequencial.md`: "Última Task: 005".
 
 Convenção adotada (não obrigatória pela especificação, mas usada aqui para deixar a relação óbvia): quando duas tasks são pares feat/test do mesmo recurso, usar o **mesmo resumo** (slug), variando apenas o prefixo de tipo — ex. `002-feat-api-dados-versao` / `003-test-api-dados-versao`.
 
