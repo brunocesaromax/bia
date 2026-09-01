@@ -1,0 +1,36 @@
+# CI - Testes
+#
+# O que este workflow faz:
+# A cada Pull Request aberto, atualizado ou reaberto tendo a branch "ia-main"
+# como base, ele baixa o codigo, instala as dependencias e roda a suite de
+# testes (npm test). Assim nenhum PR e mergeado sem os testes passarem.
+#
+# Os testes sao unitarios e nao usam banco de dados, entao nao ha servico
+# auxiliar (Postgres) aqui.
+
+name: CI - Testes
+
+on:
+  pull_request:
+    branches:
+      - ia-main
+
+jobs:
+  testes:
+    name: testes
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixa o codigo do repositorio
+        uses: actions/checkout@v4
+
+      - name: Configura o Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instala as dependencias
+        run: npm ci
+
+      - name: Roda a suite de testes
+        run: npm test
