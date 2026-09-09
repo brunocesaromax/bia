@@ -1,4 +1,26 @@
+/* ==========================================================================
+   Tailwind CSS v4 + shadcn/ui — adicionado na task 007 (gráfico de tasks por
+   prioridade). Importamos o tema e as utilities do Tailwind, mas NÃO o
+   preflight/reset global, para preservar 100% do CSS puro já existente abaixo
+   (que tem o próprio reset em `* {}`). As utilities do Tailwind são usadas
+   apenas pelo componente shadcn `chart` em src/components/ui/chart.jsx.
+   ========================================================================== */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+@layer theme, base, components, utilities;
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+
+/* Mapeia as classes de cor usadas pelo componente `chart` (bg-background,
+   text-muted-foreground, border-border, fill-muted, text-foreground, ...) para
+   os tokens de tema JÁ existentes, que trocam sozinhos entre claro/escuro via
+   [data-theme]. As cores das barras vêm direto de --accent-* no PriorityChart. */
+@theme inline {
+  --color-background: var(--bg-card);
+  --color-foreground: var(--text-primary);
+  --color-muted: var(--bg-secondary);
+  --color-muted-foreground: var(--text-secondary);
+  --color-border: var(--border-color);
+}
 
 /* Variáveis de tema */
 :root {
@@ -858,4 +880,72 @@ footer {
       transform: translateX(-50%);
     }
   }
+}
+
+/* ==========================================================================
+   Página do gráfico de prioridades — /prioridades (task 007)
+   Reaproveita .about-page / .about-footer / .back-button / .empty-state.
+   ========================================================================== */
+.chart-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.chart-subtitle {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.chart-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+/* Sobrepõe o aspect-video do <ChartContainer> por uma altura fixa e legível.
+   CSS sem @layer sempre vence as utilities do Tailwind (que ficam em @layer). */
+.priority-chart {
+  width: 100%;
+  aspect-ratio: auto;
+  height: 260px;
+}
+
+.chart-legend {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.chart-legend li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.chart-legend strong {
+  color: var(--text-primary);
+}
+
+.chart-legend-swatch {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.home-actions {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-card);
+  text-align: center;
 }
