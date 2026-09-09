@@ -22,12 +22,12 @@ A segunda a ser mergeada pode precisar de um rebase trivial. Manter as mudanças
 
 Antes de começar a implementar, o agent deve:
 
-- [x] **Verificar branch atual:** `git branch --show-current`
+- [ ] **Verificar branch atual:** `git branch --show-current`
   - Se não estiver em `ia-main`, **PERGUNTAR** ao usuário se pode trocar
   - Aguardar autorização
   - Após autorização: `git checkout ia-main && git pull origin ia-main`
 
-- [x] **Mover task para doing:**
+- [ ] **Mover task para doing:**
   ```bash
   mv .claude/tasks/007-feat-grafico-tasks-por-prioridade.md .claude/tasks/doing/
   git add .claude/tasks/
@@ -35,7 +35,7 @@ Antes de começar a implementar, o agent deve:
   git push origin ia-main
   ```
 
-- [x] **Criar worktree** (o script já copia o `.env` do worktree principal, então
+- [ ] **Criar worktree** (o script já copia o `.env` do worktree principal, então
   `docker compose up` funciona de imediato com o banco conectado):
   ```bash
   scripts/criar-worktree.sh 007-feat-grafico-tasks-por-prioridade
@@ -107,33 +107,33 @@ ou corrigir os pontos afetados no `index.css`) — mantendo o mínimo necessári
 ## ✅ Critérios de Aceitação
 
 ### Funcionalidades Principais
-- [x] Nova rota registrada em `client/src/App.jsx` (sugestão: `/prioridades`), acessível pela URL.
-- [x] Há **1 link/botão visível na home** que navega para a tela do gráfico.
-- [x] A tela do gráfico tem um botão/link "voltar" para `/` (consistente com `client/src/components/About.jsx`).
-- [x] O gráfico usa o componente `chart` do shadcn/ui (`<ChartContainer>`) com `<BarChart>` do Recharts.
-- [x] O gráfico mostra a contagem de tasks por prioridade — grupos **Importante** e **Normal** — com valores corretos, conferidos contra a lista de tarefas.
-- [x] Ao alterar a prioridade de uma task na home e voltar ao gráfico, as contagens refletem a mudança (dados vêm do mesmo estado `tasks`).
+- [ ] Nova rota registrada em `client/src/App.jsx` (sugestão: `/prioridades`), acessível pela URL.
+- [ ] Há **1 link/botão visível na home** que navega para a tela do gráfico.
+- [ ] A tela do gráfico tem um botão/link "voltar" para `/` (consistente com `client/src/components/About.jsx`).
+- [ ] O gráfico usa o componente `chart` do shadcn/ui (`<ChartContainer>`) com `<BarChart>` do Recharts.
+- [ ] O gráfico mostra a contagem de tasks por prioridade — grupos **Importante** e **Normal** — com valores corretos, conferidos contra a lista de tarefas.
+- [ ] Ao alterar a prioridade de uma task na home e voltar ao gráfico, as contagens refletem a mudança (dados vêm do mesmo estado `tasks`).
 
 ### Estado vazio
-- [x] Com zero tarefas, a tela mostra uma mensagem (ex.: "Nenhuma tarefa para exibir no gráfico") em vez de um gráfico vazio, sem quebrar.
+- [ ] Com zero tarefas, a tela mostra uma mensagem (ex.: "Nenhuma tarefa para exibir no gráfico") em vez de um gráfico vazio, sem quebrar.
 
 ### Interface e UX
 - [ ] Gráfico legível em tema claro e escuro.
-- [x] Layout da tela consistente com o restante do app.
+- [ ] Layout da tela consistente com o restante do app.
 
 ### Setup shadcn/Tailwind (autorizado e esperado)
-- [x] `npx shadcn@latest init` rodado em `client/`; `tailwind.config.*`, PostCSS, `components.json` e util `cn` presentes e versionados.
-- [x] `npx shadcn@latest add chart` rodado; `client/src/components/ui/chart.jsx` e `recharts` adicionados.
-- [x] Imports/diretivas do Tailwind e CSS variables integrados ao `client/src/index.css` / `main.jsx` sem remover o CSS puro já existente.
+- [ ] `npx shadcn@latest init` rodado em `client/`; `tailwind.config.*`, PostCSS, `components.json` e util `cn` presentes e versionados.
+- [ ] `npx shadcn@latest add chart` rodado; `client/src/components/ui/chart.jsx` e `recharts` adicionados.
+- [ ] Imports/diretivas do Tailwind e CSS variables integrados ao `client/src/index.css` / `main.jsx` sem remover o CSS puro já existente.
 
 ### Não-regressão
-- [x] Nenhuma mudança em `api/`, `database/`, `server.js` ou qualquer arquivo fora de `client/`.
-- [x] Dados do gráfico agregados no client (sem endpoint novo).
+- [ ] Nenhuma mudança em `api/`, `database/`, `server.js` ou qualquer arquivo fora de `client/`.
+- [ ] Dados do gráfico agregados no client (sem endpoint novo).
 - [ ] Após o Tailwind entrar (preflight/reset global), a home (`/`) e a rota `/about` continuam visualmente corretas — conferido no navegador, tema claro e escuro.
 
 ## 🧪 Testes
-- [x] Com várias tarefas (mix de importantes e normais) → conferir que as barras batem com a contagem real.
-- [x] Com zero tarefas → conferir mensagem de estado vazio.
+- [ ] Com várias tarefas (mix de importantes e normais) → conferir que as barras batem com a contagem real.
+- [ ] Com zero tarefas → conferir mensagem de estado vazio.
 - [ ] Navegar home → gráfico → voltar; alterar prioridade e revisitar o gráfico.
 - [ ] Testar em tema claro e escuro.
 - [ ] Regressão pós-Tailwind: home (`/`) e `/about` inspecionadas no navegador — layout, formulário, lista de tarefas e paginação intactos.
@@ -143,9 +143,9 @@ ou corrigir os pontos afetados no `index.css`) — mantendo o mínimo necessári
 ## 📚 Definição de Pronto (DoD)
 - [ ] Código implementado e testado
 - [ ] Todos os itens do checklist marcados ✅
-- [x] Commits descritivos e frequentes
+- [ ] Commits descritivos e frequentes
 - [ ] Push do branch realizado
-- [x] Nenhum arquivo fora de `client/` alterado
+- [ ] Nenhum arquivo fora de `client/` alterado
 - [ ] Home e `/about` validadas visualmente após entrada do Tailwind
 
 ---
@@ -153,23 +153,23 @@ ou corrigir os pontos afetados no `index.css`) — mantendo o mínimo necessári
 ## 🎯 CHECKLIST DE IMPLEMENTAÇÃO (MARCAR DURANTE O TRABALHO)
 
 ### Configuração
-- [x] Worktree criado e branch `feature/007-feat-grafico-tasks-por-prioridade` confirmado
+- [ ] Worktree criado e branch `feature/007-feat-grafico-tasks-por-prioridade` confirmado
 - [ ] `docker compose up` sobe app + banco no worktree
 
 ### Setup shadcn/ui + Tailwind no client
-- [x] `npx shadcn@latest init` em `client/` (defaults Vite + React/JSX); commitar `tailwind.config.*`, config PostCSS, `components.json`, `client/src/lib/utils.js`
-- [x] Integrar diretivas Tailwind + CSS variables no `client/src/index.css` / `main.jsx` sem apagar o CSS puro existente
-- [x] `npx shadcn@latest add chart` (gera `client/src/components/ui/chart.jsx`, adiciona `recharts` ao `package.json`)
+- [ ] `npx shadcn@latest init` em `client/` (defaults Vite + React/JSX); commitar `tailwind.config.*`, config PostCSS, `components.json`, `client/src/lib/utils.js`
+- [ ] Integrar diretivas Tailwind + CSS variables no `client/src/index.css` / `main.jsx` sem apagar o CSS puro existente
+- [ ] `npx shadcn@latest add chart` (gera `client/src/components/ui/chart.jsx`, adiciona `recharts` ao `package.json`)
 - [ ] Subir o app e checar no navegador que home (`/`) e `/about` não regrediram com o preflight do Tailwind; ajustar config se necessário
 
 ### Desenvolvimento
-- [x] Criar `client/src/components/PriorityChart.jsx` — recebe `tasks` via props, agrupa por `importante` (Importante / Normal), renderiza com `<ChartContainer>` + `<BarChart>` do Recharts
-- [x] Criar o wrapper de página (ou usar o próprio componente) com título + botão "voltar" para `/`
-- [x] `client/src/App.jsx`: adicionar `<Route path="/prioridades" element={...} />` passando `tasks`
-- [x] Adicionar `<Link to="/prioridades">` visível na `HomePage` (ex.: acima da lista de tarefas ou perto do `AddTask`)
-- [x] Tratar estado vazio (`tasks.length === 0`)
-- [x] Estilo da página do gráfico (container, título, botão voltar) — claro e escuro
-- [x] Confirmar: nenhuma mudança em `api/`, `database/`, `server.js`, raiz
+- [ ] Criar `client/src/components/PriorityChart.jsx` — recebe `tasks` via props, agrupa por `importante` (Importante / Normal), renderiza com `<ChartContainer>` + `<BarChart>` do Recharts
+- [ ] Criar o wrapper de página (ou usar o próprio componente) com título + botão "voltar" para `/`
+- [ ] `client/src/App.jsx`: adicionar `<Route path="/prioridades" element={...} />` passando `tasks`
+- [ ] Adicionar `<Link to="/prioridades">` visível na `HomePage` (ex.: acima da lista de tarefas ou perto do `AddTask`)
+- [ ] Tratar estado vazio (`tasks.length === 0`)
+- [ ] Estilo da página do gráfico (container, título, botão voltar) — claro e escuro
+- [ ] Confirmar: nenhuma mudança em `api/`, `database/`, `server.js`, raiz
 
 ### Testes
 - [ ] `npm test` do `client/` passa
@@ -177,8 +177,8 @@ ou corrigir os pontos afetados no `index.css`) — mantendo o mínimo necessári
 - [ ] Testes manuais dos cenários da seção 🧪 realizados
 
 ### Finalização
-- [x] Código revisado
-- [x] Commits finalizados com mensagens descritivas
+- [ ] Código revisado
+- [ ] Commits finalizados com mensagens descritivas
 - [ ] Push do branch realizado
 - [ ] Todos os itens acima marcados ✅
 
@@ -277,57 +277,3 @@ git branch -d feature/007-feat-grafico-tasks-por-prioridade
 - [Worktree Workflow](.claude/docs/worktree-workflow.md)
 - [Worktree Steering](.claude/docs/worktree-steering.md)
 - [Task Template](.claude/docs/task-template-with-worktree.md)
-
----
-
-## 📓 NOTAS DE IMPLEMENTAÇÃO (dev — 2026-09-08)
-
-### shadcn/ui CLI (`npx shadcn@latest init` / `add chart`)
-- `npx shadcn@latest init -t vite --base radix -p nova` **foi executado** no `client/`,
-  mas a versão atual do CLI (`shadcn` 4.20/4.21) tem um bug no caminho **Vite + JS/JSX**:
-  - injeta em `src/index.css` os imports `@import "shadcn/tailwind.css";` e
-    `@import "@fontsource-variable/geist";` para arquivos que **não existem** em `node_modules`
-    (build quebra), e usa o seletor `.dark` (o projeto usa `[data-theme="dark"]`);
-  - adiciona dependências espúrias no `package.json` (`cn@0.2.6`, `shadcn` como runtime dep,
-    `lucide-react@^1.43.0` — versão inexistente/errada).
-- Como o resultado do CLI é inutilizável aqui, o setup foi concluído **manualmente com o
-  mesmo resultado final** que o CLI deveria produzir:
-  - `components.json` (schema shadcn, `tsx:false`, aliases `@/*`) — versionado;
-  - `src/lib/utils.js` com o helper `cn` (clsx + tailwind-merge) — versionado;
-  - `src/components/ui/chart.jsx` — **componente `chart` oficial do shadcn/ui** (registry
-    `new-york-v4`), convertido de TSX→JSX, com `THEMES.dark` ajustado para `[data-theme="dark"]`;
-  - `recharts` adicionado ao `package.json` (+ `clsx`, `tailwind-merge`, `tailwindcss`,
-    `@tailwindcss/vite`).
-- **Tailwind v4** não usa `tailwind.config.*` nem PostCSS config — é o plugin
-  `@tailwindcss/vite` + diretivas no CSS. Por isso não há `tailwind.config.js` para versionar.
-- `src/index.css`: importadas apenas as camadas **theme + utilities** do Tailwind
-  (`@import 'tailwindcss/theme.css'` / `utilities.css`), **sem o `preflight`** (reset global),
-  para não tocar no CSS puro existente. Um `@theme inline` mapeia
-  `bg-background`/`text-muted-foreground`/`border-border`/etc. para os tokens `--bg-*` /
-  `--text-*` / `--border-color` que já existem e já trocam entre claro/escuro.
-- `client/yarn.lock` foi **removido**: o Dockerfile usa `npm install` (`COPY client/package*.json`),
-  o `yarn.lock` estava obsoleto e confundia o CLI do shadcn (tentava `yarn add`, sem yarn instalado).
-
-### Code-splitting
-- A rota `/prioridades` é carregada com `React.lazy` + `Suspense`. Assim o `recharts` (~118 kB gzip)
-  fica num chunk separado e **não pesa no bundle da home**.
-
-### Testes
-- **Não existe runner de testes no `client/`** (sem `test` script, sem jest/vitest — o
-  `react-scripts` foi substituído por Vite). A afirmação da task sobre "jest/RTL já existente
-  em client/" não procede. O teste do agrupamento foi validado via script Node ad-hoc
-  (`groupTasksByPriority`: mix → 2/3, vazio → 0/0). Introduzir vitest fica como decisão do PO
-  (fora do escopo mínimo desta task).
-- `vite build` passa limpo. Render SSR de `PriorityChart` (populado e vazio) validado sem erros.
-- O **build completo via Dockerfile** (`docker compose build`) passou — imagem gerada com o
-  `npm run build` do client incluindo as mudanças.
-- `docker compose up` **não foi executado no worktree**: o ambiente (containers `bia`/`database`,
-  nomes fixos) está em uso pelo worktree da task 006 (paralela). Não derrubei.
-
-### ⚠️ Pendente de validação no navegador (QA / usuário)
-- Home (`/`) e `/about` **visualmente intactas** após entrada do Tailwind (risco baixo: sem
-  preflight, e CSS sem `@layer` sempre vence as utilities do Tailwind — mas confirmar no browser).
-- Gráfico legível em **tema claro e escuro**; troca de tema ao vivo.
-- Navegação home → gráfico → voltar; alterar `importante` de uma task e revisitar o gráfico
-  (contagens devem refletir — dados vêm do mesmo `tasks` state de `App.jsx`).
-- Tooltip do gráfico e responsividade mobile.
