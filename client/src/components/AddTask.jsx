@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Modal from "./Modal";
+import { isoParaBr } from "../utils/date";
 
 const AddTask = ({ onAdd }) => {
   const [titulo, setTitulo] = useState("");
@@ -15,10 +16,13 @@ const AddTask = ({ onAdd }) => {
       return;
     }
 
-    onAdd({ 
-      titulo: titulo.trim(), 
-      dia_atividade: dia || new Date().toLocaleDateString('pt-BR'), 
-      importante 
+    // `dia` guarda o valor ISO (YYYY-MM-DD) do <input type="date">.
+    // Converte para DD/MM/YYYY (formato que a API/banco já usam). Sem data
+    // escolhida, mantém o comportamento atual: data de hoje em pt-BR.
+    onAdd({
+      titulo: titulo.trim(),
+      dia_atividade: dia ? isoParaBr(dia) : new Date().toLocaleDateString('pt-BR'),
+      importante
     });
 
     setTitulo("");
@@ -39,10 +43,10 @@ const AddTask = ({ onAdd }) => {
       </div>
       
       <div className="form-control">
-        <label>Data/Prazo</label>
+        <label htmlFor="dia_atividade">Data/Prazo</label>
         <input
-          type="text"
-          placeholder="Quando?"
+          type="date"
+          id="dia_atividade"
           value={dia}
           onChange={(e) => setDia(e.target.value)}
         />

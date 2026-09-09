@@ -236,6 +236,16 @@ body {
   border-color: var(--accent-primary);
 }
 
+/* Date picker nativo (<input type="date">): faz o calendário e o ícone
+   indicador acompanharem o tema atual, mantendo legibilidade no dark mode. */
+.form-control input[type="date"] {
+  color-scheme: light;
+}
+
+[data-theme="dark"] .form-control input[type="date"] {
+  color-scheme: dark;
+}
+
 .form-control-check {
   display: flex;
   align-items: center;
