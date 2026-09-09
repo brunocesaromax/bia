@@ -15,6 +15,10 @@ metadata:
 ## Navegador Playwright
 - Na primeira execução o browser pode não estar instalado. Rodar:
   `npx @playwright/mcp install-browser chrome-for-testing` (baixa ~300MB, ~1min).
+- MCP configurado com `--output-dir .playwright-mcp` (ver `.claude/agents/qa.md`).
+  Screenshots/traces/vídeos vão para `.playwright-mcp/` (já no `.gitignore`).
+  Em `browser_take_screenshot` passar só o nome do arquivo, sem caminho — caminho
+  relativo/absoluto joga o PNG para fora do dir ignorado e ele acaba versionado.
 
 ## Interagir com `<input type="date">` via Playwright
 - `browser_type` não preenche input date de forma confiável. Usar `browser_evaluate`
