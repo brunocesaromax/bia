@@ -3,3 +3,4 @@
 - [Numeração e estado do backlog](project_task_numbering.md) — snapshot de tasks 001-003 e convenção de resumo compartilhado feat/test.
 - [Branch base voltou a ser ia-main](project_branch_base_ia_main.md) — desde 2026-08-24, fluxo usa ia-main (não main); exceção: task 001 legada nasceu de main.
 - [gh resolve repo como fork henrylle/bia](project_gh_pr_repo_fork.md) — PRs de encerramento exigem `-R brunocesaromax/bia` e `--head brunocesaromax:feature/<task>`.
+- [Checklist no branch feature conflita](feedback_checklist_no_branch_conflita.md) — marcação de checklist commitada no branch quebra o PR; como neutralizar no encerramento.
