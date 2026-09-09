@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React, { useState, useEffect, lazy, Suspense } from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { ThemeProvider } from "./contexts/ThemeContext.jsx";
 import { LogProvider, useLog } from "./contexts/LogContext.jsx";
 import Header from "./components/Header.jsx";
@@ -8,6 +8,10 @@ import Tasks from "./components/Tasks.jsx";
 import AddTask from "./components/AddTask.jsx";
 import About from "./components/About.jsx";
 import DebugLogs from "./components/DebugLogs.jsx";
+
+// Carrega a tela do gráfico (e a lib recharts) só quando o usuário abre
+// /prioridades — mantém o bundle da home leve.
+const PriorityChart = lazy(() => import("./components/PriorityChart.jsx"));
 
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
@@ -170,6 +174,11 @@ function AppContent() {
   // Componente para página principal
   const HomePage = () => (
     <>
+      <div className="home-actions">
+        <Link to="/prioridades" className="footer-link">
+          📊 Ver gráfico de tasks por prioridade
+        </Link>
+      </div>
       <AddTask onAdd={addTask} />
       {tasks.length > 0 ? (
         <Tasks
@@ -195,6 +204,20 @@ function AppContent() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<About />} />
+            <Route
+              path="/prioridades"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="empty-state">
+                      <p>Carregando gráfico…</p>
+                    </div>
+                  }
+                >
+                  <PriorityChart tasks={tasks} />
+                </Suspense>
+              }
+            />
           </Routes>
           <Footer />
         </div>
