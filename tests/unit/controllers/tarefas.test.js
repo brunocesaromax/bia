@@ -5,7 +5,16 @@ jest.mock('../../../api/models', () => {
   return jest.fn();
 });
 
+// Mock do cache (Redis) — os testes não dependem de um Redis real
+jest.mock('../../../lib/cache', () => ({
+  get: jest.fn(),
+  set: jest.fn(),
+  del: jest.fn(),
+  ttl: jest.fn()
+}));
+
 const initializeModels = require('../../../api/models');
+const cache = require('../../../lib/cache');
 
 describe('Tarefas Controller', () => {
   let req, res, mockTarefas;
@@ -117,7 +126,70 @@ describe('Tarefas Controller', () => {
       await findAll(req, res);
 
       expect(mockTarefas.findAll).toHaveBeenCalled();
-      expect(res.send).toHaveBeenCalledWith(tarefas);
+      expect(res.send).toHaveBeenCalledWith({ dbTime: expect.any(Number), data: tarefas });
+      expect(cache.get).not.toHaveBeenCalled();
+    });
+
+    describe('com cache habilitado', () => {
+      beforeEach(() => {
+        process.env.CACHE_ENDPOINT = 'redis';
+        process.env.CACHE_TTL = '15';
+      });
+
+      afterEach(() => {
+        delete process.env.CACHE_ENDPOINT;
+        delete process.env.CACHE_TTL;
+      });
+
+      test('cache hit: retorna do cache sem consultar o banco', async () => {
+        const tarefas = [{ uuid: '1', titulo: 'Tarefa 1' }];
+        cache.get.mockResolvedValue({ data: tarefas, error: false });
+        cache.ttl.mockResolvedValue(10);
+
+        const { findAll } = tarefasController();
+        await findAll(req, res);
+
+        expect(mockTarefas.findAll).not.toHaveBeenCalled();
+        expect(res.send).toHaveBeenCalledWith({
+          fromCache: true,
+          cacheTTL: 10,
+          cacheTime: expect.any(Number),
+          data: tarefas
+        });
+      });
+
+      test('cache miss: busca no banco e grava no cache', async () => {
+        const tarefas = [{ uuid: '1', titulo: 'Tarefa 1' }];
+        cache.get.mockResolvedValue({ data: null, error: false });
+        mockTarefas.findAll.mockResolvedValue(tarefas);
+
+        const { findAll } = tarefasController();
+        await findAll(req, res);
+
+        expect(mockTarefas.findAll).toHaveBeenCalled();
+        expect(cache.set).toHaveBeenCalledWith('tarefas:all', tarefas);
+        expect(res.send).toHaveBeenCalledWith({
+          fromCache: false,
+          cacheTTL: 15,
+          cacheError: false,
+          dbTime: expect.any(Number),
+          data: tarefas
+        });
+      });
+
+      test('Redis indisponível: busca no banco e não grava no cache', async () => {
+        const tarefas = [{ uuid: '1', titulo: 'Tarefa 1' }];
+        cache.get.mockResolvedValue({ data: null, error: true });
+        mockTarefas.findAll.mockResolvedValue(tarefas);
+
+        const { findAll } = tarefasController();
+        await findAll(req, res);
+
+        expect(cache.set).not.toHaveBeenCalled();
+        expect(res.send).toHaveBeenCalledWith(
+          expect.objectContaining({ fromCache: false, cacheError: true, data: tarefas })
+        );
+      });
     });
 
     test('deve retornar erro 500 ao falhar', async () => {
@@ -221,6 +293,19 @@ describe('Tarefas Controller', () => {
       expect(res.send).toHaveBeenCalledWith({
         message: 'Erro no banco'
       });
+    });
+  });
+
+  describe('deleteAll', () => {
+    test('deve apagar todas as tarefas e invalidar o cache', async () => {
+      mockTarefas.destroy.mockResolvedValue(0);
+
+      const { deleteAll } = tarefasController();
+      await deleteAll(req, res);
+
+      expect(mockTarefas.destroy).toHaveBeenCalledWith({ where: {}, truncate: true });
+      expect(cache.del).toHaveBeenCalledWith('tarefas:all');
+      expect(res.send).toHaveBeenCalledWith({ message: 'Todas as tarefas foram deletadas.' });
     });
   });
 });

@@ -6,6 +6,7 @@ import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
 import Tasks from "./components/Tasks.jsx";
 import AddTask from "./components/AddTask.jsx";
+import Modal from "./components/Modal.jsx";
 import About from "./components/About.jsx";
 import DebugLogs from "./components/DebugLogs.jsx";
 
@@ -17,6 +18,10 @@ const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
 function AppContent() {
   const [tasks, setTasks] = useState([]);
+  const [fromCache, setFromCache] = useState(false);
+  const [cacheTTL, setCacheTTL] = useState(null);
+  const [cacheError, setCacheError] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const { logApiRequest, logApiResponse, logApiError, addLog } = useLog();
 
   useEffect(() => {
@@ -26,8 +31,18 @@ function AppContent() {
 
   const getTasks = async () => {
     try {
-      const tasksFromServer = await fetchTasks();
-      setTasks(tasksFromServer);
+      const response = await fetchTasks();
+      if (response.data) {
+        setTasks(response.data);
+        setFromCache(response.fromCache);
+        setCacheTTL(response.cacheTTL);
+        setCacheError(response.cacheError || false);
+      } else {
+        setTasks(response);
+        setFromCache(false);
+        setCacheTTL(null);
+        setCacheError(false);
+      }
     } catch (error) {
       addLog('ERROR', 'Falha ao carregar tarefas', error.message);
     }
@@ -147,6 +162,29 @@ function AppContent() {
     }
   };
 
+  //Remover todas as tarefas
+  const confirmDeleteAll = () => setShowConfirmModal(true);
+
+  const deleteAllTasks = async () => {
+    setShowConfirmModal(false);
+    const url = `${apiUrl}/api/tarefas`;
+    logApiRequest('DELETE', url);
+
+    try {
+      const res = await fetch(url, { method: "DELETE" });
+      logApiResponse('DELETE', url, res.status);
+
+      if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+
+      setTasks([]);
+      addLog('SUCCESS', 'Todas as tarefas removidas');
+      getTasks();
+    } catch (error) {
+      logApiError('DELETE', url, error);
+      addLog('ERROR', 'Falha ao excluir todas as tarefas', error.message);
+    }
+  };
+
   //Remover tarefa
   const deleteTask = async (uuid) => {
     const url = `${apiUrl}/api/tarefas/${uuid}`;
@@ -184,7 +222,11 @@ function AppContent() {
         <Tasks
           tasks={tasks}
           onDelete={deleteTask}
+          onDeleteAll={confirmDeleteAll}
           onToggle={toggleReminder}
+          fromCache={fromCache}
+          cacheTTL={cacheTTL}
+          cacheError={cacheError}
         />
       ) : (
         <div className="empty-state">
@@ -192,6 +234,14 @@ function AppContent() {
           <p>Adicione sua primeira tarefa usando o formulário acima!</p>
         </div>
       )}
+      <Modal
+        isOpen={showConfirmModal}
+        onClose={() => setShowConfirmModal(false)}
+        onConfirm={deleteAllTasks}
+        title="Limpar tudo"
+        message="Tem certeza que deseja excluir todas as tarefas?"
+        type="warning"
+      />
     </>
   );
 
