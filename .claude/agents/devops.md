@@ -9,13 +9,13 @@ mcpServers:
       type: stdio
       command: uvx
       args:
-        - mcp-proxy-for-aws==1.6.2
+        - mcp-proxy-for-aws-cli@latest
         - https://aws-mcp.us-east-1.api.aws/mcp
-        - --metadata
-        - AWS_REGION=us-east-1
+        - --profile
+        - formacaoaws
+        - --region
+        - us-east-1
         - --read-only
-      env:
-        AWS_PROFILE: formacaoaws
   - postgres:
       type: stdio
       command: docker
