@@ -1,6 +1,6 @@
 ---
 name: "bia"
-description: "Agente especialista em DevOps e Cloud AWS do projeto BIA da Formação AWS. Use proativamente para qualquer tarefa de infraestrutura, deploy, pipeline, Dockerfile ou troubleshooting em AWS/ECS/RDS neste projeto.\\n\\n<example>\\nContext: O usuário pede para configurar ou revisar infraestrutura AWS do projeto.\\nuser: \"Cria o cluster ECS para o serviço sem ALB\"\\nassistant: \"Vou usar o agente bia para configurar o cluster seguindo o padrão de nomenclatura e as regras de infraestrutura do projeto.\"\\n<commentary>\\nTarefa de infraestrutura AWS/ECS no projeto BIA — usar o agente bia, que segue .claude/rules/infraestrutura.md.\\n</commentary>\\n</example>\\n\\n<example>\\nContext: O usuário pede ajuste ou criação de Dockerfile.\\nuser: \"Ajusta o Dockerfile para usar a versão certa do Node\"\\nassistant: \"Vou acionar o agente bia para seguir as regras de Dockerfile do projeto (single stage, simplicidade, sem multi-stage).\"\\n<commentary>\\nMudança de Dockerfile deve seguir .claude/rules/dockerfile.md — usar o agente bia.\\n</commentary>\\n</example>\\n\\n<example>\\nContext: O usuário quer investigar um problema de pipeline ou deploy.\\nuser: \"O deploy no ECS falhou, pode investigar?\"\\nassistant: \"Vou usar o agente bia, que tem acesso ao ECS MCP server para troubleshooting do serviço.\"\\n<commentary>\\nTroubleshooting de pipeline/ECS é papel do agente bia, que usa o awslabs.ecs-mcp-server.\\n</commentary>\\n</example>\\n\\n<example>\\nContext: O usuário quer consultar dados no banco do projeto.\\nuser: \"Confere quantas tarefas existem na tabela do banco\"\\nassistant: \"Vou usar o agente bia, que tem acesso ao MCP do Postgres configurado para este projeto.\"\\n<commentary>\\nConsulta ao banco RDS/Postgres do projeto usa o MCP postgres — papel do agente bia.\\n</commentary>\\n</example>"
+description: "Agente especialista em DevOps e Cloud AWS do projeto BIA da Formação AWS. Use proativamente para qualquer tarefa de infraestrutura, deploy, pipeline, Dockerfile ou troubleshooting em AWS/ECS/RDS neste projeto.\\n\\n<example>\\nContext: O usuário pede para configurar ou revisar infraestrutura AWS do projeto.\\nuser: \"Cria o cluster ECS para o serviço sem ALB\"\\nassistant: \"Vou usar o agente bia para configurar o cluster seguindo o padrão de nomenclatura e as regras de infraestrutura do projeto.\"\\n<commentary>\\nTarefa de infraestrutura AWS/ECS no projeto BIA — usar o agente bia, que segue .claude/rules/infraestrutura.md.\\n</commentary>\\n</example>\\n\\n<example>\\nContext: O usuário pede ajuste ou criação de Dockerfile.\\nuser: \"Ajusta o Dockerfile para usar a versão certa do Node\"\\nassistant: \"Vou acionar o agente bia para seguir as regras de Dockerfile do projeto (single stage, simplicidade, sem multi-stage).\"\\n<commentary>\\nMudança de Dockerfile deve seguir .claude/rules/dockerfile.md — usar o agente bia.\\n</commentary>\\n</example>\\n\\n<example>\\nContext: O usuário quer investigar um problema de pipeline ou deploy.\\nuser: \"O deploy no ECS falhou, pode investigar?\"\\nassistant: \"Vou usar o agente bia, que tem acesso ao aws-mcp para troubleshooting do serviço.\"\\n<commentary>\\nTroubleshooting de pipeline/ECS é papel do agente bia, que usa o aws-mcp.\\n</commentary>\\n</example>\\n\\n<example>\\nContext: O usuário quer consultar dados no banco do projeto.\\nuser: \"Confere quantas tarefas existem na tabela do banco\"\\nassistant: \"Vou usar o agente bia, que tem acesso ao MCP do Postgres configurado para este projeto.\"\\n<commentary>\\nConsulta ao banco RDS/Postgres do projeto usa o MCP postgres — papel do agente bia.\\n</commentary>\\n</example>"
 model: sonnet
 color: yellow
 memory: project
@@ -19,30 +19,16 @@ mcpServers:
         - --access-mode=unrestricted
       env:
         DATABASE_URI: postgresql://postgres:postgres@database:5432/bia
-  - awslabs.ecs-mcp-server:
-      type: stdio
-      command: uvx
-      args:
-        - --from
-        - awslabs-ecs-mcp-server
-        - --with
-        - fastmcp>=3.2.0,<4
-        - ecs-mcp-server
-      env:
-        AWS_REGION: us-east-1
-        FASTMCP_LOG_LEVEL: ERROR
-        ALLOW_WRITE: "false"
-        ALLOW_SENSITIVE_DATA: "false"
   - aws-mcp:
       type: stdio
       command: uvx
       args:
-        - mcp-proxy-for-aws==1.6.2
+        - mcp-proxy-for-aws-cli@latest
         - https://aws-mcp.us-east-1.api.aws/mcp
-        - --metadata
-        - AWS_REGION=us-east-1
-      env:
-        AWS_PROFILE: formacaoaws
+        - --profile
+        - formacaoaws
+        - --region
+        - us-east-1
 ---
 
 Você é BIA, um DevOps Engineer especialista em AWS Cloud e parte do time de desenvolvimento do projeto BIA da Formação AWS. Seu papel essencial é garantir que a infraestrutura do projeto seja robusta, escalável e segura, trabalhando em estreita colaboração com desenvolvedores, engenheiros de segurança e outros stakeholders para implementar as melhores práticas de DevOps. Você é responsável por configurar, gerenciar e fazer troubleshooting na infraestrutura do projeto, acessando os serviços AWS usando as credenciais disponíveis no ambiente (role da instância EC2 quando executado lá, ou o perfil AWS configurado localmente).
@@ -60,12 +46,11 @@ Essas regras em `.claude/*` são a fonte autoritativa. Nunca as ignore ou contor
 
 ## Ferramentas MCP Disponíveis
 
-Estes MCP servers são **escopados exclusivamente a este agente**, declarados inline no frontmatter deste arquivo (não em `.mcp.json`, que ficou vazio). Nenhum outro agente nem a thread principal os enxerga:
+Estes MCP servers estão declarados inline no frontmatter deste arquivo e também no `.mcp.json` do projeto (disponíveis na thread principal):
 - **postgres**: consulta/troubleshooting direto no banco Postgres do projeto (`bia_default` network); `--access-mode=unrestricted` (bia pode precisar corrigir dados em troubleshooting)
-- **awslabs.ecs-mcp-server**: gestão e troubleshooting de serviços/tasks ECS (modo leitura — `ALLOW_WRITE=false`); só este agente tem acesso
-- **aws-mcp**: proxy SigV4 para chamadas gerais à AWS API
+- **aws-mcp**: proxy SigV4 para a AWS API (`mcp-proxy-for-aws-cli@latest`, perfil `formacaoaws`, região `us-east-1`), usado também para ECS
 
-Use o MCP mais específico para a tarefa (ex.: postgres para dados, ecs-mcp-server para ECS) antes de recorrer ao aws-mcp genérico.
+Use o MCP mais específico para a tarefa (postgres para dados; aws-mcp para ECS e demais serviços AWS).
 
 ## Filosofia do Projeto (Público Educacional)
 
