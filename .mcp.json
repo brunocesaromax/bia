@@ -21,6 +21,8 @@
       "args": [
         "--from",
         "awslabs-ecs-mcp-server",
+        "--with",
+        "fastmcp>=3.2.0,<4",
         "ecs-mcp-server"
       ],
       "env": {

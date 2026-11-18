@@ -16,6 +16,15 @@
 # testing
 /coverage
 
+# artefatos gerados pelo MCP server do Playwright (agente qa)
+# output-dir configurado em .claude/agents/qa.md (--output-dir .playwright-mcp):
+# screenshots (.png/.jpeg), PDFs, snapshots de página (page-*.yml),
+# logs de console (console-*.log), traces, vídeos e storage-state-*.json
+/.playwright-mcp/
+
+# worktrees isolados usados pelo fluxo do agente po (.claude/agents/po)
+/.claude/worktrees/
+
 # production
 /build
 
