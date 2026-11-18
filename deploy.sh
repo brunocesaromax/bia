@@ -9,6 +9,13 @@ set -o pipefail
 cd "$(dirname "$0")"
 source ./deploy.env
 
+# Carrega o nvm (o npm não vem no PATH em scripts bash não interativos)
+export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+if ! command -v npm >/dev/null 2>&1 && [ -s "$NVM_DIR/nvm.sh" ]; then
+  source "$NVM_DIR/nvm.sh"
+fi
+command -v npm >/dev/null 2>&1 || { echo "[ERRO] npm não encontrado. Instale o Node.js ou o nvm."; exit 1; }
+
 ENVIRONMENT=$1
 
 if [ "$ENVIRONMENT" != "hom" ] && [ "$ENVIRONMENT" != "prod" ]; then
